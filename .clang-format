@@ -11,3 +11,4 @@ SpacesBeforeTrailingComments: 2
 IndentCaseLabels: true
 AllowShortCaseLabelsOnASingleLine: true
 AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: true
