@@ -55,7 +55,7 @@ public:
 
         if (verbosity == LogVerbosity::Fatal)
         {
-            // TODO implement Platform_Break
+            PLATFORM_BREAK();
         }
     }
 

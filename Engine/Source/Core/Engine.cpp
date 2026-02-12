@@ -3,18 +3,16 @@
 
 using namespace DarrJorge;
 
-const LogCategory logName("LogEngine");
+DEFINE_LOG_CATEGORY_STATIC(LogEngine)
 
 Engine::Engine()
 {
-    Log::getInstance().log(logName, LogVerbosity::Display, "Test Log display");
-    Log::getInstance().log(logName, LogVerbosity::Warning, "Test Log warning");
-    Log::getInstance().log(logName, LogVerbosity::Error, "Test Log error");
+    LOG(LogEngine, Display, "Test Log #1 display");
+    LOG(LogEngine, Error, "Test Log #2 display");
+    LOG(LogEngine, Display, "Test Log #3 display");
 }
 
-Engine::~Engine()
-{
-}
+Engine::~Engine() = default;
 
 void Engine::run()
 {

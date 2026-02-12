@@ -48,4 +48,44 @@ private:
     class Impl;
     std::unique_ptr<Impl> m_impl;
 };
+
+constexpr LogVerbosity c_minVerbosity = LogVerbosity::Display;
+constexpr LogVerbosity c_maxVerbosity = LogVerbosity::Fatal;
+
+// Concepts
+template <typename T>
+concept ValidLogCategory = std::constructible_from<LogCategory, T>;
+
+template <typename T>
+concept LoggableMessage = std::convertible_to<T, std::string> || std::convertible_to<T, std::string_view>;
+
+template <LogVerbosity V>
+concept ValidVerbosityType = V == LogVerbosity::NoLogging || V == LogVerbosity::Display || V == LogVerbosity::Warning ||
+                             V == LogVerbosity::Error || V == LogVerbosity::Log || V == LogVerbosity::Fatal;
 }  // namespace DarrJorge
+
+#define DEFINE_LOG_CATEGORY_STATIC(logName)                                                                                                \
+    namespace                                                                                                                              \
+    {                                                                                                                                      \
+    const DarrJorge::LogCategory logName(#logName);                                                                                        \
+    }
+
+#define LOG_IMPL(categoryName, verbosity, showLocation, formatStr, ...)                                                                    \
+    do                                                                                                                                     \
+    {                                                                                                                                      \
+        if constexpr (DarrJorge::LogVerbosity::verbosity >= DarrJorge::c_minVerbosity &&                                                   \
+                      DarrJorge::LogVerbosity::verbosity <= DarrJorge::c_maxVerbosity)                                                     \
+        {                                                                                                                                  \
+            static_assert(DarrJorge::ValidLogCategory<decltype(categoryName)>, "Category must be of type LogCategory");                    \
+            static_assert(DarrJorge::ValidVerbosityType<DarrJorge::LogVerbosity::verbosity>,                                               \
+                          "Verbosity must be one of: NoLogging, Display, Warning, Error, Log, Fatal");                                     \
+            static_assert(DarrJorge::LoggableMessage<decltype(formatStr)>,                                                                 \
+                          "Message must be convertible to std::string or std::string_view");                                               \
+            DarrJorge::Log::getInstance().log(categoryName, DarrJorge::LogVerbosity::verbosity,                                            \
+                                              std::format(formatStr __VA_OPT__(, ) __VA_ARGS__), showLocation);                            \
+        }                                                                                                                                  \
+    } while (0)
+
+#define LOG(categoryName, verbosity, formatStr, ...) LOG_IMPL(categoryName, verbosity, false, formatStr, __VA_ARGS__)
+
+#define LOG_DEBUG(categoryName, verbosity, formatStr, ...) LOG_IMPL(categoryName, verbosity, true, formatStr, __VA_ARGS__)
