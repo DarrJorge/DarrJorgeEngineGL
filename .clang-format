@@ -1,0 +1,13 @@
+BasedOnStyle: Microsoft
+IndentWidth: 4
+UseTab: Never
+TabWidth: 4
+BreakBeforeBraces: Allman
+ColumnLimit: 140
+AccessModifierOffset: -4
+SortIncludes: Never
+PointerAlignment: Left
+SpacesBeforeTrailingComments: 2
+IndentCaseLabels: true
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: Inline
