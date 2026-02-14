@@ -3,6 +3,7 @@ import shutil
 import subprocess
 import argparse
 import platform
+import shlex
 from enum import Enum
 
 class Configuration(Enum):
@@ -13,7 +14,7 @@ class Action(Enum):
     CLEAN = "clean"
     GENERATE = "generate"
     BUILD = "build"
-    CLANGFORMAT = "clang_format"
+    CLANG_FORMAT = "clang_format"
 
 class Platform(Enum):
     X64 = "x64"
@@ -68,7 +69,11 @@ def get_cmake_command(action: Action, configuration: Configuration):
 
 
 def run_command(command):
-    result = subprocess.run(command, shell=True)
+    if isinstance(command, (list, tuple)):
+        printable = " ".join(shlex.quote(str(x)) for x in command)
+        result = subprocess.run(list(map(str, command)), shell=False)
+    else:
+        result = subprocess.run(command, shell=True)
     return result.returncode == 0
 
 
@@ -89,10 +94,43 @@ def generate_project_files(action: Action, configuration: Configuration):
 
 
 def build_project(action: Action, configuration: Configuration):
-    print("Running build_project")
+    if not os.path.exists(Config.BUILD_FOLDER):
+        print(f"{Config.BUILD_FOLDER} folder doesn't exist. Please generate project files first")
+        return
+    
+    os.chdir(Config.BUILD_FOLDER)
+    command = get_cmake_command(action, configuration)
+
+    if run_command(command):
+        print(f"Project built successfully in {configuration} mode.")
+    else:
+        print(f"Failed to build project in {configuration} mmode")
+    os.chdir("..")
+
+
+def get_source_files(source_dir, extensions):
+    source_files = []
+    for root, _, files in os.walk(source_dir):
+        for file in files:
+            if any(file.endswith(ext) for ext in extensions):
+                source_files.append(os.path.join(root, file))
+    return source_files      
+         
 
 def run_clang_format(source_dir):
-    print("Running run_clang_format")
+    extensions = ['.cpp', '.h', '.hpp']
+    format_sources = get_source_files(source_dir, extensions)
+
+    if not format_sources:
+        print(f"No source files found in {source_dir}")
+        return
+    
+    # run clang-format command
+    command = ['clang-format', '-i'] + format_sources
+    if run_command(command):
+        print('Clang-format successfully applied.')
+    else:
+        print('Error running clang-format command.')
 
 if __name__ == "__main__":
     parser  = argparse.ArgumentParser(description="CMAKE Automation script")
@@ -103,12 +141,11 @@ if __name__ == "__main__":
     selected_action = args.action
     selected_configuration = args.configuration
 
-
     actions = {
         Action.CLEAN: remove_build_folder,
         Action.GENERATE: lambda: generate_project_files(Action.GENERATE, selected_configuration),
         Action.BUILD: lambda: build_project(Action.BUILD, selected_configuration),
-        Action.CLANGFORMAT: lambda: run_clang_format(Config.SOURCE_DIR)
+        Action.CLANG_FORMAT: lambda: run_clang_format(Config.SOURCE_DIR)
     }
 
     if selected_action in actions:
