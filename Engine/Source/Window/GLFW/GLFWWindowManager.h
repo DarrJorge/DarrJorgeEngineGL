@@ -22,10 +22,12 @@ public:
     ~GLFWWindowManager();
 
     std::expected<WindowId, WindowCreationError> createWindow(const WindowSettings& settings);
-    bool allWindowsClosed() const;
-    std::shared_ptr<GLFWWindow> getWindowById(WindowId id) const;
+    [[nodiscard]] bool allWindowsClosed() const;
+    [[nodiscard]] std::shared_ptr<GLFWWindow> getWindowById(WindowId id) const;
 
     void update();
+
+    [[nodiscard]] const std::unordered_map<WindowId, std::shared_ptr<GLFWWindow>>& windows() const;
 
 private:
     bool m_initialized{false};

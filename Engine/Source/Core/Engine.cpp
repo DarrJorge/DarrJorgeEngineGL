@@ -1,5 +1,9 @@
 #include "Engine.h"
+#include <chrono>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include "Window/GLFW/GLFWWindowManager.h"
+#include "Render/Renderer/Renderer.h"
 
 #include "Log/Log.h"
 
@@ -9,9 +13,10 @@ DEFINE_LOG_CATEGORY_STATIC(LogEngine)
 
 Engine::Engine()
 {
-    LOG(LogEngine, Display, "Initializing DarrJorgeEngine, version: {}", version());
+    LOG(LogEngine, Display, "Initializing {}, version: {}", ENGINE_TITLE_STRING,  version());
 
     m_windowManager = std::make_unique<GLFWWindowManager>();
+
     const auto result = m_windowManager->createWindow(WindowSettings{});
     if (!result)
     {
@@ -19,10 +24,18 @@ Engine::Engine()
         return;
     }
 
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        LOG(LogEngine, Error, "GLAD is not initialized.");
+        return;
+    }
+
     if (auto window = m_windowManager->getWindowById(result.value()))
     {
-        window->setTitle(std::format("DarrJorgeEngine, version: {}", version()));
+        window->setTitle(std::format("{}, version: {}", ENGINE_TITLE_STRING, version()));
     }
+
+    m_renderer = std::make_unique<Renderer>();
 
     m_initialized = true;
 }
@@ -33,8 +46,15 @@ void Engine::run()
 {
     if (!m_initialized) return;
 
+    auto m_lastTimePoint = std::chrono::high_resolution_clock::now();
+
     while (!m_windowManager->allWindowsClosed())
     {
+        const auto now = std::chrono::high_resolution_clock::now();
+        const auto deltaTime = std::chrono::duration<float>(now - m_lastTimePoint).count();
+        m_lastTimePoint = now;
+
+        m_renderer->tick(deltaTime);
         m_windowManager->update();
     }
 }

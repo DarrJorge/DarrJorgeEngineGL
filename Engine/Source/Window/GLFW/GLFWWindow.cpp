@@ -33,6 +33,12 @@ void GLFWWindow::setTitle(const std::string& title)
     glfwSetWindowTitle(m_window, title.c_str());
 }
 
+void GLFWWindow::setWindowForCurrentContext()
+{
+    if (!m_window) return;
+    glfwMakeContextCurrent(m_window);
+}
+
 bool GLFWWindow::isValid() const
 {
     return m_window != nullptr;
@@ -42,4 +48,10 @@ bool GLFWWindow::shouldClose() const
 {
     if (!m_window) return true;
     return glfwWindowShouldClose(m_window);
+}
+
+void GLFWWindow::swapBuffers()
+{
+    if (!m_window) return;
+    glfwSwapBuffers(m_window);
 }

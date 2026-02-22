@@ -1,0 +1,7 @@
+#pragma once
+
+#define ENGINE_VERSION_MAJOR @DarrJorgeEngine_VERSION_MAJOR@
+#define ENGINE_VERSION_MINOR @DarrJorgeEngine_VERSION_MINOR@
+#define ENGINE_VERSION_PATCH @DarrJorgeEngine_VERSION_PATCH@
+#define ENGINE_VERSION_STRING "@DarrJorgeEngine_VERSION@"
+#define ENGINE_TITLE_STRING "@PROJECT_NAME@"

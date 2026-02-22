@@ -38,9 +38,12 @@ public:
     ~GLFWWindow();
 
     void setTitle(const std::string& title);
+    void setWindowForCurrentContext();
 
     bool isValid() const;
     bool shouldClose() const;
+
+    void swapBuffers();
 
 private:
     GLFWwindow* m_window{nullptr};
@@ -51,9 +54,6 @@ namespace std
 {
 template <> struct hash<DarrJorge::WindowId>
 {
-    size_t operator()(const DarrJorge::WindowId& id) const noexcept
-    {
-        return std::hash<unsigned int>{}(id.value);
-    }
+    size_t operator()(const DarrJorge::WindowId& id) const noexcept { return std::hash<unsigned int>{}(id.value); }
 };
-}
+}  // namespace std

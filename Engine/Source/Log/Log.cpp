@@ -85,5 +85,5 @@ void Log::log(const LogCategory& category, LogVerbosity verbosity, const std::st
                                       ? std::format("[{}] [{}:{}] {}", category.name(), location.function_name(), location.line(), message)
                                       : std::format("[{}] {}", category.name(), message);
 
-    m_impl->log(verbosity,formatMsg);
+    m_impl->log(verbosity, formatMsg);
 }
