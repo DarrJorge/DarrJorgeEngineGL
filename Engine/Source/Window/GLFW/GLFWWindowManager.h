@@ -3,37 +3,30 @@
 #include <memory>
 #include <cstdint>
 #include <expected>
-#include "GLFWWindow.h"
+#include "Window/IWindow.h"
+#include "Window/IWindowManager.h"
 
 namespace DarrJorge
 {
-class GLFWWindow;
-
-enum class WindowCreationError : uint8_t
-{
-    ManagerIsNotInitialized,
-    CreationFailed
-};
-
-class GLFWWindowManager final
+class GLFWWindowManager final : public IWindowManager
 {
 public:
     GLFWWindowManager();
-    ~GLFWWindowManager();
+    ~GLFWWindowManager() override;
 
-    std::expected<WindowId, WindowCreationError> createWindow(const WindowSettings& settings);
-    [[nodiscard]] bool allWindowsClosed() const;
-    [[nodiscard]] std::shared_ptr<GLFWWindow> getWindowById(WindowId id) const;
+    std::expected<WindowId, WindowCreationError> createWindow(const WindowSettings& settings) override;
+    [[nodiscard]] bool allWindowsClosed() const override;
+    [[nodiscard]] std::shared_ptr<IWindow> getWindowById(WindowId id) const override;
 
-    void update();
+    void update() override;
 
-    [[nodiscard]] const std::unordered_map<WindowId, std::shared_ptr<GLFWWindow>>& windows() const;
+    [[nodiscard]] const std::unordered_map<WindowId, std::shared_ptr<IWindow>>& windows() const override;
 
 private:
     bool m_initialized{false};
     WindowId m_windowIdCounter{1};
 
-    std::unordered_map<WindowId, std::shared_ptr<GLFWWindow>> m_windows;
+    std::unordered_map<WindowId, std::shared_ptr<IWindow>> m_windows;
 
     void cleanupClosedWindows();
 };

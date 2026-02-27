@@ -1,10 +1,13 @@
 #include "Core/Engine.h"
 #include <cstdlib>
+#include "Window/GLFW/GLFWWindowManager.h"
+
+using namespace DarrJorge;
 
 int main()
 {
-    DarrJorge::Engine engine;
+    auto windowManager = std::make_unique<GLFWWindowManager>();
+    Engine engine(std::move(windowManager));
     engine.run();
-
     return EXIT_SUCCESS;
 }

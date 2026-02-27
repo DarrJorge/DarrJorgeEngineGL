@@ -44,6 +44,10 @@ set(ENGINE_SOURCES
     Source/Render/OpenGL/GLRenderDevice.cpp
     Source/Render/OpenGL/GLRendererAPI.cpp
     Source/Render/OpenGL/GLRendererAPI.h
+        Source/Core/Camera.h
+        Source/Core/Camera.cpp
+        Source/Window/IWindow.h
+        Source/Window/IWindowManager.h
 
 )
 

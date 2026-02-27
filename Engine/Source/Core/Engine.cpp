@@ -2,7 +2,7 @@
 #include <chrono>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "Window/GLFW/GLFWWindowManager.h"
+#include "Window/IWindowManager.h"
 #include "Render/Renderer/Renderer.h"
 
 #include "Log/Log.h"
@@ -11,11 +11,9 @@ using namespace DarrJorge;
 
 DEFINE_LOG_CATEGORY_STATIC(LogEngine)
 
-Engine::Engine()
+Engine::Engine(std::unique_ptr<IWindowManager> windowManager) : m_windowManager(std::move(windowManager))
 {
     LOG(LogEngine, Display, "Initializing {}, version: {}", ENGINE_TITLE_STRING,  version());
-
-    m_windowManager = std::make_unique<GLFWWindowManager>();
 
     const auto result = m_windowManager->createWindow(WindowSettings{});
     if (!result)

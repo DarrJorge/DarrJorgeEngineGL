@@ -2,58 +2,27 @@
 
 #include <functional>
 #include <string>
+#include "Window/IWindow.h"
 
 class GLFWwindow;
 
 namespace DarrJorge
 {
-struct WindowId
-{
-    unsigned int value{0};
-    constexpr explicit WindowId(unsigned int id) : value(id) {}
-
-    constexpr WindowId operator++(int)
-    {
-        WindowId temp = *this;
-        ++value;
-        return temp;
-    }
-
-    constexpr auto operator<=>(const WindowId&) const = default;
-};
-
-struct WindowSettings
-{
-    std::string title{};
-    int width{1280};
-    int height{720};
-    int x{100};
-    int y{100};
-};
-
-class GLFWWindow final
+class GLFWWindow final : public IWindow
 {
 public:
     GLFWWindow(const WindowSettings& settings);
-    ~GLFWWindow();
+    ~GLFWWindow() override;
 
-    void setTitle(const std::string& title);
-    void setWindowForCurrentContext();
+    void setTitle(const std::string& title) override;
+    void setWindowForCurrentContext() override;
 
-    bool isValid() const;
-    bool shouldClose() const;
+    bool isValid() const override;
+    bool shouldClose() const override;
 
-    void swapBuffers();
+    void swapBuffers() override;
 
 private:
     GLFWwindow* m_window{nullptr};
 };
 }  // namespace DarrJorge
-
-namespace std
-{
-template <> struct hash<DarrJorge::WindowId>
-{
-    size_t operator()(const DarrJorge::WindowId& id) const noexcept { return std::hash<unsigned int>{}(id.value); }
-};
-}  // namespace std
