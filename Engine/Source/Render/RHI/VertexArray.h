@@ -19,4 +19,4 @@ public:
     virtual void setIndexBuffer(const std::shared_ptr<IIndexBuffer>& vertexBuffer) = 0;
     virtual std::shared_ptr<IIndexBuffer>& getIndexBuffer() = 0;
 };
-}
+}  // namespace DarrJorge

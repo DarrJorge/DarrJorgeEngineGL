@@ -7,8 +7,7 @@ DEFINE_LOG_CATEGORY_STATIC(LogOpenGLBuffer);
 
 // Vertex Buffer
 
-GLVertexBuffer::GLVertexBuffer(float* vertices, uint32_t size)
-    : m_vertices(vertices), m_size(size)
+GLVertexBuffer::GLVertexBuffer(float* vertices, uint32_t size) : m_vertices(vertices), m_size(size)
 {
     LOG(LogOpenGLBuffer, Display, "GLVertexBuffer constructor ");
     glGenBuffers(1, &m_VBO);
@@ -44,8 +43,7 @@ void GLVertexBuffer::setLayout(const VertexLayout& layout)
 
 // Index Buffer
 
-GLIndexBuffer::GLIndexBuffer(uint32_t * indices, uint32_t count)
-    : m_indices(indices), m_count(count)
+GLIndexBuffer::GLIndexBuffer(uint32_t* indices, uint32_t count) : m_indices(indices), m_count(count)
 {
     glGenBuffers(1, &m_EBO);
 }

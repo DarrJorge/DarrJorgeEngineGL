@@ -20,6 +20,8 @@ set(ENGINE_SOURCES
     Source/Core/MathTypes.cpp    
     Source/Log/Log.h
     Source/Log/Log.cpp    
+    Source/Window/IWindow.h
+    Source/Window/IWindowManager.h    
     Source/Window/GLFW/GLFWWindow.h
     Source/Window/GLFW/GLFWWindow.cpp
     Source/Window/GLFW/GLFWWindowManager.h
@@ -44,10 +46,6 @@ set(ENGINE_SOURCES
     Source/Render/OpenGL/GLRenderDevice.cpp
     Source/Render/OpenGL/GLRendererAPI.cpp
     Source/Render/OpenGL/GLRendererAPI.h
-        Source/Core/Camera.h
-        Source/Core/Camera.cpp
-        Source/Window/IWindow.h
-        Source/Window/IWindowManager.h
 
 )
 

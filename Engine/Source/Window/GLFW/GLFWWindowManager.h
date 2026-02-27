@@ -5,10 +5,11 @@
 #include <expected>
 #include "Window/IWindow.h"
 #include "Window/IWindowManager.h"
+#include "Core/Utility.h"
 
 namespace DarrJorge
 {
-class GLFWWindowManager final : public IWindowManager
+class GLFWWindowManager final : public IWindowManager, public NonCopyable
 {
 public:
     GLFWWindowManager();

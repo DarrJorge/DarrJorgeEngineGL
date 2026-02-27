@@ -27,4 +27,4 @@ private:
     std::vector<std::shared_ptr<IVertexBuffer>> m_vertexBuffers;
     std::shared_ptr<IIndexBuffer> m_indexBuffer;
 };
-}
+}  // namespace DarrJorge

@@ -13,7 +13,7 @@ DEFINE_LOG_CATEGORY_STATIC(LogEngine)
 
 Engine::Engine(std::unique_ptr<IWindowManager> windowManager) : m_windowManager(std::move(windowManager))
 {
-    LOG(LogEngine, Display, "Initializing {}, version: {}", ENGINE_TITLE_STRING,  version());
+    LOG(LogEngine, Display, "Initializing {}, version: {}", ENGINE_TITLE_STRING, version());
 
     const auto result = m_windowManager->createWindow(WindowSettings{});
     if (!result)

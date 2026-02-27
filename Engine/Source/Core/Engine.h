@@ -3,13 +3,14 @@
 #include <memory>
 #include <string_view>
 #include "EngineConfig.h"
+#include "Utility.h"
 
 namespace DarrJorge
 {
 class IWindowManager;
 class Renderer;
 
-class Engine final
+class Engine final : public NonCopyable
 {
 public:
     Engine(std::unique_ptr<IWindowManager> windowManager);

@@ -30,4 +30,4 @@ public:
 private:
     static API s_api;
 };
-}
+}  // namespace DarrJorge

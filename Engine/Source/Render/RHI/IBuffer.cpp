@@ -2,8 +2,7 @@
 
 using namespace DarrJorge;
 
-VertexLayout::VertexLayout(const std::initializer_list<VertexElement>& elements)
-    : m_elements(elements)
+VertexLayout::VertexLayout(const std::initializer_list<VertexElement>& elements) : m_elements(elements)
 {
     calculateOffsetAndStride();
 }

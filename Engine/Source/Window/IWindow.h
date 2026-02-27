@@ -42,7 +42,7 @@ public:
 
     virtual void swapBuffers() = 0;
 };
-}
+}  // namespace DarrJorge
 
 namespace std
 {

@@ -3,12 +3,13 @@
 #include <functional>
 #include <string>
 #include "Window/IWindow.h"
+#include "Core/Utility.h"
 
 class GLFWwindow;
 
 namespace DarrJorge
 {
-class GLFWWindow final : public IWindow
+class GLFWWindow final : public IWindow, public NonCopyable
 {
 public:
     GLFWWindow(const WindowSettings& settings);

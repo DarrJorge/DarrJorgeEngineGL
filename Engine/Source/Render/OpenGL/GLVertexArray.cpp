@@ -44,13 +44,8 @@ void GLVertexArray::addVertexBuffer(const std::shared_ptr<IVertexBuffer>& vertex
     for (const auto& element : vertexBuffer->getLayout())
     {
         LOG(LogGLVertexArray, Display, "element");
-        glVertexAttribPointer(
-            element.index,
-            element.size,
-            element.type,
-            GL_FALSE,
-            stride * sizeof(float),
-            (void*)(element.offset * sizeof(float)));
+        glVertexAttribPointer(element.index, element.size, element.type, GL_FALSE, stride * sizeof(float),
+                              (void*)(element.offset * sizeof(float)));
         glEnableVertexAttribArray(element.index);
     }
 

@@ -5,7 +5,6 @@ using namespace DarrJorge;
 
 DEFINE_LOG_CATEGORY_STATIC(LogShader);
 
-
 Shader::Shader(const std::string& vertexSourceCode, const std::string& fragmentSourceCode)
 {
     auto vertexShader = glCreateShader(GL_VERTEX_SHADER);

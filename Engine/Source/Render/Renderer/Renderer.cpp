@@ -49,7 +49,7 @@ Renderer::Renderer()
         0.5f,  0.5f,  0.0f, 1.0f, 0.0f, 1.0f, 1.0f,  // top right
         0.5f,  -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,  // bottom right
         -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f,  // bottom left
-        -0.5f, 0.5f,  0.0f, 1.0f, 0.0f, 1.0f, 1.0f  // top left
+        -0.5f, 0.5f,  0.0f, 1.0f, 0.0f, 1.0f, 1.0f   // top left
     };
     unsigned int indices[] = {
         // note that we start from 0!
@@ -62,10 +62,7 @@ Renderer::Renderer()
     auto vertexBuffer = renderDevice->createVertexBuffer(vertices, sizeof(vertices));
     auto indexBuffer = renderDevice->createIndexBuffer(indices, sizeof(indices));
 
-    VertexLayout layout = {
-        { 0, GL_FLOAT, 3 },
-        { 1, GL_FLOAT, 4 }
-    };
+    VertexLayout layout = {{0, GL_FLOAT, 3}, {1, GL_FLOAT, 4}};
     vertexBuffer->setLayout(layout);
 
     m_vertexArray->addVertexBuffer(vertexBuffer);
@@ -83,8 +80,8 @@ void Renderer::tick(float dt)
     RenderCommand::setClearColor({0.2f, 0.3f, 0.3f, 1.0f});
     RenderCommand::clear();
 
-    //int vertexColorLoc = glGetUniformLocation(shaderProgram, "ourColor");
-    //glUniform3f(vertexColorLoc, 0.0f, 1.0f, 0.0f);
+    // int vertexColorLoc = glGetUniformLocation(shaderProgram, "ourColor");
+    // glUniform3f(vertexColorLoc, 0.0f, 1.0f, 0.0f);
 
     RenderCommand::drawIndexed(m_vertexArray);
 }

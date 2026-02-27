@@ -16,4 +16,4 @@ public:
     virtual std::shared_ptr<IIndexBuffer> createIndexBuffer(uint32_t* indices, uint32_t size) override;
     virtual std::shared_ptr<VertexArray> createVertexArray() override;
 };
-}
+}  // namespace DarrJorge

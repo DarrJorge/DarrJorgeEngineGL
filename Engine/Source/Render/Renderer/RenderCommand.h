@@ -38,4 +38,4 @@ public:
 private:
     static RendererAPI* s_api;
 };
-}
+}  // namespace DarrJorge
