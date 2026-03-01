@@ -21,7 +21,8 @@ set(ENGINE_SOURCES
     Source/Log/Log.h
     Source/Log/Log.cpp    
     Source/Window/IWindow.h
-    Source/Window/IWindowManager.h    
+    Source/Window/WindowManager.h
+    Source/Window/WindowManager.cpp
     Source/Window/GLFW/GLFWWindow.h
     Source/Window/GLFW/GLFWWindow.cpp
     Source/Window/GLFW/GLFWWindowManager.h

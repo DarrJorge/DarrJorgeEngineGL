@@ -2,7 +2,7 @@
 #include <chrono>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "Window/IWindowManager.h"
+#include "Window/WindowManager.h"
 #include "Render/Renderer/Renderer.h"
 
 #include "Log/Log.h"
@@ -11,7 +11,7 @@ using namespace DarrJorge;
 
 DEFINE_LOG_CATEGORY_STATIC(LogEngine)
 
-Engine::Engine(std::unique_ptr<IWindowManager> windowManager) : m_windowManager(std::move(windowManager))
+Engine::Engine(std::unique_ptr<WindowManager> windowManager) : m_windowManager(std::move(windowManager))
 {
     LOG(LogEngine, Display, "Initializing {}, version: {}", ENGINE_TITLE_STRING, version());
 

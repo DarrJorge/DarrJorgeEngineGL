@@ -68,17 +68,6 @@ std::expected<WindowId, WindowCreationError> GLFWWindowManager::createWindow(con
     return id;
 }
 
-bool GLFWWindowManager::allWindowsClosed() const
-{
-    return m_windows.empty();
-}
-
-std::shared_ptr<IWindow> GLFWWindowManager::getWindowById(WindowId id) const
-{
-    const auto it = m_windows.find(id);
-    return it != m_windows.end() ? it->second : nullptr;
-}
-
 void GLFWWindowManager::update()
 {
     if (!m_initialized) return;
@@ -89,25 +78,5 @@ void GLFWWindowManager::update()
     for (auto& window : m_windows)
     {
         window.second->swapBuffers();
-    }
-}
-
-const std::unordered_map<WindowId, std::shared_ptr<IWindow>>& GLFWWindowManager::windows() const
-{
-    return m_windows;
-}
-
-void GLFWWindowManager::cleanupClosedWindows()
-{
-    auto it = m_windows.begin();
-    while (it != m_windows.end())
-    {
-        if (it->second->shouldClose())
-        {
-            LOG(LogGLFWWindowManager, Display, "Removing window with id {}", it->first.value);
-            it = m_windows.erase(it);
-            continue;
-        }
-        it++;
     }
 }
