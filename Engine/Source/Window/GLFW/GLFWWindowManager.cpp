@@ -1,4 +1,5 @@
 #include "GLFWWindowManager.h"
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "GLFWWindow.h"
 
@@ -59,6 +60,12 @@ std::expected<WindowId, WindowCreationError> GLFWWindowManager::createWindow(con
     }
 
     window->setWindowForCurrentContext();
+
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        LOG(LogGLFWWindowManager, Error, "GLAD is not initialized.");
+        return std::unexpected(WindowCreationError::ManagerIsNotInitialized);
+    }
 
     const WindowId id = m_windowIdCounter++;
     m_windows[id] = window;

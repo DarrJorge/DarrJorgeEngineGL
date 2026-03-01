@@ -49,6 +49,16 @@ set(ENGINE_SOURCES
     Source/Render/OpenGL/GLRendererAPI.h
 )
 
+if (WIN32)
+    list(APPEND ENGINE_SOURCES 
+        Source/Window/WinAPI/WinAPIWindow.h
+        Source/Window/WinAPI/WinAPIWindow.cpp
+        Source/Window/WinAPI/WinAPIWindowManager.h
+        Source/Window/WinAPI/WinAPIWindowManager.cpp 
+    )
+endif()
+
+
 add_library(${PROJECT_NAME}Lib ${ENGINE_SOURCES})
 target_include_directories(${PROJECT_NAME}Lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Source)
 target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}Lib)

@@ -1,9 +1,7 @@
 #include "Engine.h"
-#include <chrono>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include "Window/WindowManager.h"
 #include "Render/Renderer/Renderer.h"
+#include <chrono>
 
 #include "Log/Log.h"
 
@@ -19,12 +17,6 @@ Engine::Engine(std::unique_ptr<WindowManager> windowManager) : m_windowManager(s
     if (!result)
     {
         LOG(LogEngine, Error, "Failed to create main window.");
-        return;
-    }
-
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        LOG(LogEngine, Error, "GLAD is not initialized.");
         return;
     }
 
