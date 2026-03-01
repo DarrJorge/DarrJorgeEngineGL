@@ -47,12 +47,15 @@ set(ENGINE_SOURCES
     Source/Render/OpenGL/GLRenderDevice.cpp
     Source/Render/OpenGL/GLRendererAPI.cpp
     Source/Render/OpenGL/GLRendererAPI.h
-
 )
 
 add_library(${PROJECT_NAME}Lib ${ENGINE_SOURCES})
 target_include_directories(${PROJECT_NAME}Lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Source)
 target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}Lib)
+
+if (MSVC)
+    target_compile_options(${PROJECT_NAME}Lib PUBLIC /Zc:preprocessor)
+endif()   
 
 # add libs
 find_package(spdlog REQUIRED)
@@ -71,3 +74,11 @@ target_link_libraries(${PROJECT_NAME}Lib PRIVATE glm::glm)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER Engine)
 set_target_properties(${PROJECT_NAME}Lib PROPERTIES FOLDER Engine)
+
+if (MSVC)
+    include(${CMAKE_SOURCE_DIR}/automation/CMake/CMakeHelpers.cmake)
+    create_ide_folders(ENGINE_SOURCES)
+    setup_precompiled_headers(${PROJECT_NAME}Lib Source/pch.cpp Source/pch.h "${ENGINE_SOURCES}")
+else()
+     target_precompile_headers(${PROJECT_NAME}Lib PRIVATE  Source/pch.h)
+endif()   

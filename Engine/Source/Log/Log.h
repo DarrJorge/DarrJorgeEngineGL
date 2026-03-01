@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <string>
+#include <string_view>
 #include <source_location>
 #include <concepts>
 #include <memory>
