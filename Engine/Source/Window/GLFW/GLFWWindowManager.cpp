@@ -52,7 +52,7 @@ std::expected<WindowId, WindowCreationError> GLFWWindowManager::createWindow(con
         return std::unexpected(WindowCreationError::ManagerIsNotInitialized);
     }
 
-    auto window = std::make_shared<GLFWWindow>(settings);
+    auto window = std::make_shared<GLFWWindow>(m_windowIdCounter, settings);
     if (!window->isValid())
     {
         LOG(LogGLFWWindowManager, Error, "Failed to create window.");

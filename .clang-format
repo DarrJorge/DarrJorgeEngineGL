@@ -12,3 +12,4 @@ IndentCaseLabels: true
 AllowShortCaseLabelsOnASingleLine: true
 AllowShortFunctionsOnASingleLine: Inline
 AllowShortIfStatementsOnASingleLine: true
+AlignAfterOpenBracket: DontAlign

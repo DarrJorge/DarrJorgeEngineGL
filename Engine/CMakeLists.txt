@@ -18,6 +18,8 @@ set(ENGINE_SOURCES
     Source/Core/Utility.h
     Source/Core/MathTypes.h
     Source/Core/MathTypes.cpp    
+    Source/Core/Camera.h
+    Source/Core/Camera.cpp   
     Source/Log/Log.h
     Source/Log/Log.cpp    
     Source/Window/IWindow.h
@@ -47,6 +49,8 @@ set(ENGINE_SOURCES
     Source/Render/OpenGL/GLRenderDevice.cpp
     Source/Render/OpenGL/GLRendererAPI.cpp
     Source/Render/OpenGL/GLRendererAPI.h
+    Source/Event/Event.h
+    Source/Event/InputEvent.h
 )
 
 if (WIN32)
