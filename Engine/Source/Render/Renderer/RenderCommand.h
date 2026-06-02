@@ -6,12 +6,12 @@
 
 namespace DarrJorge
 {
-class VertexArray;
+class IVertexArray;
 
 class RenderCommand
 {
 public:
-    static void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray)
+    static void drawIndexed(const std::shared_ptr<IVertexArray>& vertexArray)
     {
         if (s_api)
         {

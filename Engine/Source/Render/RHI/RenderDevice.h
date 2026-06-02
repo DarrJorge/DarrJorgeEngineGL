@@ -6,14 +6,22 @@ namespace DarrJorge
 {
 class IVertexBuffer;
 class IIndexBuffer;
-class VertexArray;
+class IVertexArray;
+
+
+enum class BufferUsage
+{
+    Static,
+    Dynamic,
+    Stream
+};
 
 class RenderDevice
 {
 public:
     virtual ~RenderDevice() = default;
-    virtual std::shared_ptr<IVertexBuffer> createVertexBuffer(float* vertices, uint32_t size) = 0;
-    virtual std::shared_ptr<IIndexBuffer> createIndexBuffer(uint32_t* indices, uint32_t size) = 0;
-    virtual std::shared_ptr<VertexArray> createVertexArray() = 0;
+    virtual std::shared_ptr<IVertexBuffer> createVertexBuffer(const void* data, uint32_t count, BufferUsage usage = BufferUsage::Static) = 0;
+    virtual std::shared_ptr<IIndexBuffer> createIndexBuffer(const uint32_t* data, uint32_t count, BufferUsage usage = BufferUsage::Static) = 0;
+    virtual std::shared_ptr<IVertexArray> createVertexArray() = 0;
 };
 }  // namespace DarrJorge

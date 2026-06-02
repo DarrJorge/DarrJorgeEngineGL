@@ -15,7 +15,9 @@ void VertexLayout::calculateOffsetAndStride()
     for (auto& element : m_elements)
     {
         element.offset = offset;
-        offset += element.size;
-        m_stride += element.size;
+
+        const uint32_t elementSize = VertexElement::GetElementSize(element.elementType);
+        offset += elementSize;
+        m_stride += elementSize;
     }
 }

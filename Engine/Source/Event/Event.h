@@ -28,7 +28,7 @@ public:
                 case EventType::WindowClose: eventTypeStr = "WindowClose"; break;
             }
 
-            LOG(LogEvent, Display, "Dispatch event: {}.", eventTypeStr);
+            //LOG(LogEvent, Display, "Dispatch event: {}.", eventTypeStr);
         };
 
         (printEvent(args), ...);

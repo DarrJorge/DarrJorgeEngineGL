@@ -17,9 +17,7 @@ set(ENGINE_SOURCES
     Source/Core/Engine.cpp
     Source/Core/Utility.h
     Source/Core/MathTypes.h
-    Source/Core/MathTypes.cpp    
-    Source/Core/Camera.h
-    Source/Core/Camera.cpp   
+    Source/Core/MathTypes.cpp      
     Source/Log/Log.h
     Source/Log/Log.cpp    
     Source/Window/IWindow.h
@@ -35,7 +33,7 @@ set(ENGINE_SOURCES
     Source/Render/Renderer/RendererAPI.cpp
     Source/Render/Renderer/RenderCommand.h
     Source/Render/Renderer/RenderCommand.cpp
-    Source/Render/RHI/VertexArray.h
+    Source/Render/RHI/IVertexArray.h
     Source/Render/RHI/RenderDevice.h
     Source/Render/RHI/Shader.h     
     Source/Render/RHI/Shader.cpp         

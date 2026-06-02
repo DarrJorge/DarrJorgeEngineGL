@@ -2,13 +2,14 @@
 
 #include <memory>
 #include "Render/RHI/IBuffer.h"
+#include "../RHI/RenderDevice.h"
 
 namespace DarrJorge
 {
 class GLVertexBuffer : public IVertexBuffer
 {
 public:
-    GLVertexBuffer(float* vertices, uint32_t size);
+    GLVertexBuffer(const void* data, uint32_t count, BufferUsage usage);
     virtual ~GLVertexBuffer();
 
     virtual void bind() const override;
@@ -22,13 +23,12 @@ private:
     uint32_t m_size;
 
     VertexLayout m_layout{};
-    float* m_vertices;
 };
 
 class GLIndexBuffer : public IIndexBuffer
 {
 public:
-    GLIndexBuffer(uint32_t* indices, uint32_t count);
+    GLIndexBuffer(const uint32_t* indices, uint32_t count, BufferUsage usage);
     virtual ~GLIndexBuffer();
 
     virtual void bind() const override;
@@ -38,6 +38,5 @@ public:
 private:
     uint32_t m_EBO;
     uint32_t m_count;
-    uint32_t* m_indices;
 };
 }  // namespace DarrJorge

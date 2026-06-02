@@ -1,16 +1,36 @@
 #include "GLBuffer.h"
 #include <glad/glad.h>
 #include "Log/Log.h"
+
 using namespace DarrJorge;
 
 DEFINE_LOG_CATEGORY_STATIC(LogOpenGLBuffer);
 
+namespace
+{
+GLenum ConvertUsage(BufferUsage usage) 
+{
+    switch (usage)
+    {
+        case BufferUsage::Static: return GL_STATIC_DRAW;
+        case BufferUsage::Dynamic: return GL_DYNAMIC_DRAW;
+        case BufferUsage::Stream: return GL_STREAM_DRAW;
+    }
+
+    return GL_STATIC_DRAW;
+}
+}
+
 // Vertex Buffer
 
-GLVertexBuffer::GLVertexBuffer(float* vertices, uint32_t size) : m_vertices(vertices), m_size(size)
+GLVertexBuffer::GLVertexBuffer(const void* data, uint32_t count, BufferUsage usage) : m_size(count)
 {
-    LOG(LogOpenGLBuffer, Display, "GLVertexBuffer constructor ");
     glGenBuffers(1, &m_VBO);
+
+    GLenum glUsage = ConvertUsage(usage);
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+    glBufferData(GL_ARRAY_BUFFER, m_size, data, glUsage);
 }
 
 GLVertexBuffer::~GLVertexBuffer()
@@ -23,7 +43,6 @@ GLVertexBuffer::~GLVertexBuffer()
 void GLVertexBuffer::bind() const
 {
     glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-    glBufferData(GL_ARRAY_BUFFER, m_size, m_vertices, GL_STATIC_DRAW);
 }
 
 void GLVertexBuffer::unbind() const
@@ -34,18 +53,18 @@ void GLVertexBuffer::unbind() const
 void GLVertexBuffer::setLayout(const VertexLayout& layout)
 {
     m_layout = layout;
-
-    for (auto elem : m_layout)
-    {
-        LOG(LogOpenGLBuffer, Display, "LogOpenGLBuffer element ");
-    }
 }
 
 // Index Buffer
 
-GLIndexBuffer::GLIndexBuffer(uint32_t* indices, uint32_t count) : m_indices(indices), m_count(count)
+GLIndexBuffer::GLIndexBuffer(const uint32_t* indices, uint32_t count, BufferUsage usage) : m_count(count)
 {
     glGenBuffers(1, &m_EBO);
+
+    GLenum glUsage = ConvertUsage(usage);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_count * sizeof(uint32_t), indices, glUsage);
 }
 
 GLIndexBuffer::~GLIndexBuffer()
@@ -58,7 +77,6 @@ GLIndexBuffer::~GLIndexBuffer()
 void GLIndexBuffer::bind() const
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_count * sizeof(uint32_t), m_indices, GL_STATIC_DRAW);
 }
 
 void GLIndexBuffer::unbind() const

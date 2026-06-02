@@ -8,7 +8,7 @@ namespace DarrJorge
 {
 class IVertexBuffer;
 class IIndexBuffer;
-class VertexArray;
+class IVertexArray;
 
 class RendererAPI
 {
@@ -23,7 +23,7 @@ public:
     virtual void setClearColor(const Math::Vec4& color) = 0;
     virtual void clear() = 0;
 
-    virtual void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray) = 0;
+    virtual void drawIndexed(const std::shared_ptr<IVertexArray>& vertexArray) = 0;
 
     inline static API getAPI() { return s_api; }
 

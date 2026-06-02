@@ -51,7 +51,7 @@ def get_cmake_command(action: Action, configuration: Configuration):
     if platform.system() == "Darwin":
         Config.CMAKE_GENERATOR = "Ninja"
     else:
-        Config.CMAKE_GENERATOR = "Visual Studio 17 2022"
+        Config.CMAKE_GENERATOR = "Visual Studio 18 2026"
 
     cmake_flags = {
         "generator": f'-G "{Config.CMAKE_GENERATOR}"',
@@ -61,7 +61,7 @@ def get_cmake_command(action: Action, configuration: Configuration):
     }
 
     if action == Action.GENERATE:
-        return f'cmake .. {cmake_flags["generator"]} {cmake_flags["fresh"]}  -DCMAKE_BUILD_TYPE={configuration.value}'
+        return f'cmake .. {cmake_flags["fresh"]}  -DCMAKE_BUILD_TYPE={configuration.value}'
     elif action == Action.BUILD:
         return f'cmake --build . {cmake_flags["clean_first"]} {cmake_flags["verbose"]} --config {configuration.value}'
     

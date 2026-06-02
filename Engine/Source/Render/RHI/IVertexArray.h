@@ -7,10 +7,10 @@ namespace DarrJorge
 class IVertexBuffer;
 class IIndexBuffer;
 
-class VertexArray
+class IVertexArray
 {
 public:
-    virtual ~VertexArray() {};
+    virtual ~IVertexArray() {};
 
     virtual void bind() const = 0;
     virtual void unbind() const = 0;

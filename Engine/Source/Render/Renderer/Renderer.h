@@ -4,7 +4,8 @@
 
 namespace DarrJorge
 {
-class VertexArray;
+class IVertexArray;
+class RenderDevice;
 
 class Renderer final
 {
@@ -15,6 +16,7 @@ public:
     void tick(float dt);
 
 private:
-    std::shared_ptr<VertexArray> m_vertexArray;
+    std::shared_ptr<IVertexArray> m_vertexArray;
+    std::shared_ptr<RenderDevice> m_renderDevice;
 };
 }  // namespace DarrJorge

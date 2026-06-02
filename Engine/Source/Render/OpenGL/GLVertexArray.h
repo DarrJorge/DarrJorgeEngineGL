@@ -2,14 +2,14 @@
 
 #include <glad/glad.h>
 #include <vector>
-#include "Render/RHI/VertexArray.h"
+#include "Render/RHI/IVertexArray.h"
 
 namespace DarrJorge
 {
 class IVertexBuffer;
 class IIndexBuffer;
 
-class GLVertexArray : public VertexArray
+class GLVertexArray : public IVertexArray
 {
 public:
     GLVertexArray();

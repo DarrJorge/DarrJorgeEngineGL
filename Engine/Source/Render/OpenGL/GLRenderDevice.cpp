@@ -4,17 +4,17 @@
 
 using namespace DarrJorge;
 
-std::shared_ptr<IVertexBuffer> GLRenderDevice::createVertexBuffer(float* vertices, uint32_t size)
+std::shared_ptr<IVertexBuffer> GLRenderDevice::createVertexBuffer(const void* data, uint32_t count, BufferUsage usage)
 {
-    return std::make_shared<GLVertexBuffer>(vertices, size);
+    return std::make_shared<GLVertexBuffer>(data, count, usage);
 }
 
-std::shared_ptr<IIndexBuffer> GLRenderDevice::createIndexBuffer(uint32_t* indices, uint32_t size)
+std::shared_ptr<IIndexBuffer> GLRenderDevice::createIndexBuffer(const uint32_t* data, uint32_t count, BufferUsage usage)
 {
-    return std::make_shared<GLIndexBuffer>(indices, size);
+    return std::make_shared<GLIndexBuffer>(data, count, usage);
 }
 
-std::shared_ptr<VertexArray> GLRenderDevice::createVertexArray()
+std::shared_ptr<IVertexArray> GLRenderDevice::createVertexArray()
 {
     return std::make_shared<GLVertexArray>();
 }

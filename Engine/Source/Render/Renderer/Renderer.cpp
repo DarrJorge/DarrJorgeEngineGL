@@ -2,7 +2,7 @@
 #include <glad/glad.h>
 #include "Log/Log.h"
 #include "Render/RHI/IBuffer.h"
-#include "Render/RHI/VertexArray.h"
+#include "Render/RHI/IVertexArray.h"
 #include "Render/RHI/Shader.h"
 #include "RenderCommand.h"
 #include "Render/OpenGL/GLRenderDevice.h"
@@ -59,10 +59,15 @@ Renderer::Renderer()
 
     auto renderDevice = std::make_unique<GLRenderDevice>();
     m_vertexArray = renderDevice->createVertexArray();
+
     auto vertexBuffer = renderDevice->createVertexBuffer(vertices, sizeof(vertices));
     auto indexBuffer = renderDevice->createIndexBuffer(indices, sizeof(indices));
 
-    VertexLayout layout = {{0, GL_FLOAT, 3}, {1, GL_FLOAT, 4}};
+    VertexLayout layout = {
+        { VertexSemantic::Position, VertexElementType::Float3 }, 
+        { VertexSemantic::Color, VertexElementType::Float4 }
+    };
+
     vertexBuffer->setLayout(layout);
 
     m_vertexArray->addVertexBuffer(vertexBuffer);
@@ -79,9 +84,6 @@ void Renderer::tick(float dt)
 {
     RenderCommand::setClearColor({0.2f, 0.3f, 0.3f, 1.0f});
     RenderCommand::clear();
-
-    // int vertexColorLoc = glGetUniformLocation(shaderProgram, "ourColor");
-    // glUniform3f(vertexColorLoc, 0.0f, 1.0f, 0.0f);
 
     RenderCommand::drawIndexed(m_vertexArray);
 }
