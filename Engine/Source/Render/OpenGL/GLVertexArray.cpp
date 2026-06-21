@@ -104,6 +104,9 @@ void GLVertexArray::addVertexBuffer(const std::shared_ptr<IVertexBuffer>& vertex
         const GLint componentCount = GetComponentCount(element.elementType);
         const GLenum glType = ToGLType(element.elementType);
 
+        LOG(LogGLVertexArray, Display, "Setting vertex attribute: location={}, componentCount={}, glType={}, stride={}, offset={}",
+            location, componentCount, glType, stride, element.offset);
+
         glVertexAttribPointer(
             location, componentCount, glType, GL_FALSE, stride, reinterpret_cast<void*>(static_cast<uintptr_t>(element.offset)));
         glEnableVertexAttribArray(location);

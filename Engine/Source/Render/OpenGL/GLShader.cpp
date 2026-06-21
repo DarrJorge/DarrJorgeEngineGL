@@ -1,11 +1,11 @@
-#include "Shader.h"
+#include "GLShader.h"
 #include "Log/Log.h"
 
 using namespace DarrJorge;
 
 DEFINE_LOG_CATEGORY_STATIC(LogShader);
 
-Shader::Shader(const std::string& vertexSourceCode, const std::string& fragmentSourceCode)
+GLShader::GLShader(const std::string& vertexSourceCode, const std::string& fragmentSourceCode)
 {
     auto vertexShader = glCreateShader(GL_VERTEX_SHADER);
     auto vertexShaderCode = vertexSourceCode.c_str();
@@ -53,22 +53,22 @@ Shader::Shader(const std::string& vertexSourceCode, const std::string& fragmentS
     glUseProgram(m_shaderProgram);
 }
 
-Shader::~Shader()
+GLShader::~GLShader()
 {
     glDeleteProgram(m_shaderProgram);
 }
 
-void Shader::bind() const
+void GLShader::bind() const
 {
     glUseProgram(m_shaderProgram);
 }
 
-void Shader::unbind() const
+void GLShader::unbind() const
 {
     glUseProgram(0);
 }
 
-GLint Shader::getUniformLocation(std::string_view name)
+GLint GLShader::getUniformLocation(std::string_view name)
 {
     auto it = m_uniformCache.find(std::string(name));
 
@@ -84,27 +84,27 @@ GLint Shader::getUniformLocation(std::string_view name)
     return location;
 }
 
-void Shader::setInt(std::string_view name, int value)
+void GLShader::setInt(std::string_view name, int value)
 {
     glUniform1i(getUniformLocation(name), value);
 }
 
-void Shader::setFloat(std::string_view name, float value)
+void GLShader::setFloat(std::string_view name, float value)
 {
     glUniform1f(getUniformLocation(name), value);
 }
 
-void Shader::setVec3(std::string_view name, float x, float y, float z)
+void GLShader::setVec3(std::string_view name, float x, float y, float z)
 {
     glUniform3f(getUniformLocation(name), x, y, z);
 }
 
-void Shader::setVec4(std::string_view name, float x, float y, float z, float w)
+void GLShader::setVec4(std::string_view name, float x, float y, float z, float w)
 {
     glUniform4f(getUniformLocation(name), x, y, z, w);
 }
 
-void Shader::setMat4(std::string_view name, const float* matrix)
+void GLShader::setMat4(std::string_view name, const float* matrix)
 {
     glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, matrix);
 }

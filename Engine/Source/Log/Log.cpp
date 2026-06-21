@@ -13,10 +13,9 @@ namespace fs = std::filesystem;
 
 namespace
 {
-const std::unordered_map<LogVerbosity, spdlog::level::level_enum> c_verbosityMap = {
-    {LogVerbosity::NoLogging, spdlog::level::off}, {LogVerbosity::Display, spdlog::level::info},
-    {LogVerbosity::Warning, spdlog::level::warn},  {LogVerbosity::Error, spdlog::level::err},
-    {LogVerbosity::Log, spdlog::level::info},      {LogVerbosity::Fatal, spdlog::level::critical}};
+const std::unordered_map<LogVerbosity, spdlog::level::level_enum> c_verbosityMap = {{LogVerbosity::NoLogging, spdlog::level::off},
+    {LogVerbosity::Display, spdlog::level::info}, {LogVerbosity::Warning, spdlog::level::warn}, {LogVerbosity::Error, spdlog::level::err},
+    {LogVerbosity::Log, spdlog::level::info}, {LogVerbosity::Fatal, spdlog::level::critical}};
 
 constexpr const char* c_logPattern = "[%H:%M:%S.%e] [%^%l%$] %v";
 const fs::path c_logDirectory = "logs";
@@ -91,8 +90,8 @@ private:
 Log::Log() : m_impl(std::make_unique<Impl>()) {}
 Log::~Log() = default;
 
-void Log::log(const LogCategory& category, LogVerbosity verbosity, const std::string& message, bool showLocation,
-              const std::source_location location)
+void Log::log(
+    const LogCategory& category, LogVerbosity verbosity, const std::string& message, bool showLocation, const std::source_location location)
 {
     const std::string formatMsg = showLocation
                                       ? std::format("[{}] [{}:{}] {}", category.name(), location.function_name(), location.line(), message)

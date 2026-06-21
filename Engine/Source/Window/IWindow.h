@@ -46,7 +46,8 @@ public:
 
 namespace std
 {
-template <> struct hash<DarrJorge::WindowId>
+template <>
+struct hash<DarrJorge::WindowId>
 {
     size_t operator()(const DarrJorge::WindowId& id) const noexcept { return std::hash<unsigned int>{}(id.value); }
 };

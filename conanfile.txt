@@ -3,7 +3,11 @@ spdlog/1.16.0
 glfw/3.4
 glad/0.1.36
 glm/1.0.1
+boost/1.91.0
 
 [generators]
 CMakeDeps
 CMakeToolchain
+
+[options]
+boost/*:without_cobalt=True

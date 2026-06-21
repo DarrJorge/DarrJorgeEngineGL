@@ -10,7 +10,8 @@ DEFINE_LOG_CATEGORY_STATIC(LogEvent);
 
 namespace DarrJorge
 {
-template <typename... Args> class Event
+template <typename... Args>
+class Event
 {
 public:
     void invoke(Args... args)
@@ -28,7 +29,7 @@ public:
                 case EventType::WindowClose: eventTypeStr = "WindowClose"; break;
             }
 
-            //LOG(LogEvent, Display, "Dispatch event: {}.", eventTypeStr);
+            // LOG(LogEvent, Display, "Dispatch event: {}.", eventTypeStr);
         };
 
         (printEvent(args), ...);

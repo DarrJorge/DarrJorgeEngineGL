@@ -1,13 +1,15 @@
 #include "Core/Engine.h"
-#include <cstdlib>
-#include "Window/GLFW/GLFWWindowManager.h"
+#include <memory>
+#include "Window/WindowManagerFactory.h"
+#include "Window/WindowManager.h"
 
 using namespace DarrJorge;
 
 int main()
 {
-    auto windowManager = std::make_unique<GLFWWindowManager>();
+    auto windowManager = WindowManagerFactory::Create();
     Engine engine(std::move(windowManager));
     engine.run();
+
     return EXIT_SUCCESS;
 }

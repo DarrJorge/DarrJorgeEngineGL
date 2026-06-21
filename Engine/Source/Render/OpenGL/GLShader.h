@@ -8,11 +8,11 @@
 
 namespace DarrJorge
 {
-class Shader : public IShader
+class GLShader final : public IShader
 {
 public:
-    explicit Shader(const std::string& vertexSourceCode, const std::string& fragmentSourceCode);
-    ~Shader() override;
+    explicit GLShader(const std::string& vertexSourceCode, const std::string& fragmentSourceCode);
+    ~GLShader() override;
 
     void bind() const override;
     void unbind() const override;

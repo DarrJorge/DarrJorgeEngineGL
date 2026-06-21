@@ -7,6 +7,7 @@ using namespace DarrJorge;
 
 void GLRendererAPI::setClearColor(const Math::Vec4& color)
 {
+    glEnable(GL_DEPTH_TEST);
     glClearColor(color.r, color.g, color.b, color.a);
 }
 

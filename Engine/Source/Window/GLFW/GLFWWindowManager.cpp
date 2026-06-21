@@ -12,7 +12,7 @@ DEFINE_LOG_CATEGORY_STATIC(LogGLFWWindowManager);
 GLFWWindowManager::GLFWWindowManager()
 {
     glfwSetErrorCallback([](int errorCode, const char* description)
-                         { LOG(LogGLFWWindowManager, Error, "GLFW error, code: {}, description: {}", errorCode, description); });
+        { LOG(LogGLFWWindowManager, Error, "GLFW error, code: {}, description: {}", errorCode, description); });
 
     if (!glfwInit())
     {

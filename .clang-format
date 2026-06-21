@@ -1,4 +1,4 @@
-BasedOnStyle: Microsoft
+BasedOnStyle: Google
 IndentWidth: 4
 UseTab: Never
 TabWidth: 4
@@ -13,3 +13,8 @@ AllowShortCaseLabelsOnASingleLine: true
 AllowShortFunctionsOnASingleLine: Inline
 AllowShortIfStatementsOnASingleLine: true
 AlignAfterOpenBracket: DontAlign
+Cpp11BracedListStyle: true
+BinPackArguments: true
+BinPackParameters: true
+BinPackLongBracedList: true
+BreakArrays: false

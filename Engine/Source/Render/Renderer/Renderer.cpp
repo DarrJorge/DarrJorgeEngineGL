@@ -3,9 +3,13 @@
 #include "Log/Log.h"
 #include "Render/RHI/IBuffer.h"
 #include "Render/RHI/IVertexArray.h"
-#include "Render/RHI/Shader.h"
 #include "RenderCommand.h"
 #include "Render/OpenGL/GLRenderDevice.h"
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <GLFW/glfw3.h>
+#include <glm/gtc/type_ptr.hpp>
 
 using namespace DarrJorge;
 
@@ -18,11 +22,16 @@ static const char* vertexShaderSource = R"(
         layout (location = 0) in vec3 aPos;
         layout (location = 1) in vec4 aColor;
         out vec4 uColor;
+
+        uniform mat4 model;
+        uniform mat4 view;
+        uniform mat4 projection;
+
         void main()
         {
             uColor = aColor;
-            gl_Position = vec4(aPos, 1.0);
-        }
+            gl_Position = projection * view * model * vec4(aPos, 1.0);
+        }      
     )";
 
 static const char* fragmentShaderSource = R"(
@@ -41,49 +50,241 @@ Renderer::Renderer()
 {
     LOG(LogRenderer, Display, "Renderer construct ");
 
-    Shader shader(vertexShaderSource, fragmentShaderSource);
+    m_camera.setPerspective(45.0f, 1280.0f / 720.0f, 0.1f, 100.0f);
+    m_camera.setPosition({0.0f, 0.0f, 3.0f});
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     float vertices[] = {
-        0.5f,  0.5f,  0.0f, 1.0f, 0.0f, 1.0f, 1.0f,  // top right
-        0.5f,  -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f,  // bottom left
-        -0.5f, 0.5f,  0.0f, 1.0f, 0.0f, 1.0f, 1.0f   // top left
+        // Front face
+        0.5f, 0.5f,
+        0.5f,
+        1.0f,
+        0.0f,
+        0.0f,
+        1.0f,
+        0.5f,
+        -0.5f,
+        0.5f,
+        1.0f,
+        0.0f,
+        0.0f,
+        1.0f,
+        -0.5f,
+        -0.5f,
+        0.5f,
+        1.0f,
+        0.0f,
+        0.0f,
+        1.0f,
+        -0.5f,
+        0.5f,
+        0.5f,
+        1.0f,
+        0.0f,
+        0.0f,
+        1.0f,
+
+        // Back face
+        0.5f,
+        0.5f,
+        -0.5f,
+        0.0f,
+        1.0f,
+        0.0f,
+        1.0f,
+        -0.5f,
+        0.5f,
+        -0.5f,
+        0.0f,
+        1.0f,
+        0.0f,
+        1.0f,
+        -0.5f,
+        -0.5f,
+        -0.5f,
+        0.0f,
+        1.0f,
+        0.0f,
+        1.0f,
+        0.5f,
+        -0.5f,
+        -0.5f,
+        0.0f,
+        1.0f,
+        0.0f,
+        1.0f,
+
+        // Left face
+        -0.5f,
+        0.5f,
+        0.5f,
+        0.0f,
+        0.0f,
+        1.0f,
+        1.0f,
+        -0.5f,
+        -0.5f,
+        0.5f,
+        0.0f,
+        0.0f,
+        1.0f,
+        1.0f,
+        -0.5f,
+        -0.5f,
+        -0.5f,
+        0.0f,
+        0.0f,
+        1.0f,
+        1.0f,
+        -0.5f,
+        0.5f,
+        -0.5f,
+        0.0f,
+        0.0f,
+        1.0f,
+        1.0f,
+
+        // Right face
+        0.5f,
+        0.5f,
+        -0.5f,
+        1.0f,
+        1.0f,
+        0.0f,
+        1.0f,
+        0.5f,
+        -0.5f,
+        -0.5f,
+        1.0f,
+        1.0f,
+        0.0f,
+        1.0f,
+        0.5f,
+        -0.5f,
+        0.5f,
+        1.0f,
+        1.0f,
+        0.0f,
+        1.0f,
+        0.5f,
+        0.5f,
+        0.5f,
+        1.0f,
+        1.0f,
+        0.0f,
+        1.0f,
+
+        // Top face
+        0.5f,
+        0.5f,
+        -0.5f,
+        1.0f,
+        0.0f,
+        1.0f,
+        1.0f,
+        0.5f,
+        0.5f,
+        0.5f,
+        1.0f,
+        0.0f,
+        1.0f,
+        1.0f,
+        -0.5f,
+        0.5f,
+        0.5f,
+        1.0f,
+        0.0f,
+        1.0f,
+        1.0f,
+        -0.5f,
+        0.5f,
+        -0.5f,
+        1.0f,
+        0.0f,
+        1.0f,
+        1.0f,
+
+        // Bottom face
+        0.5f,
+        -0.5f,
+        0.5f,
+        0.0f,
+        1.0f,
+        1.0f,
+        1.0f,
+        0.5f,
+        -0.5f,
+        -0.5f,
+        0.0f,
+        1.0f,
+        1.0f,
+        1.0f,
+        -0.5f,
+        -0.5f,
+        -0.5f,
+        0.0f,
+        1.0f,
+        1.0f,
+        1.0f,
+        -0.5f,
+        -0.5f,
+        0.5f,
+        0.0f,
+        1.0f,
+        1.0f,
+        1.0f,
     };
-    unsigned int indices[] = {
-        // note that we start from 0!
-        0, 1, 2,  // first Triangle
-        1, 2, 3   // second Triangle
+
+    uint32_t indices[] = {
+        0, 1, 3, 1, 2, 3,        // Front
+        4, 5, 7, 5, 6, 7,        // Back
+        8, 9, 11, 9, 10, 11,     // Left
+        12, 13, 15, 13, 14, 15,  // Right
+        16, 17, 19, 17, 18, 19,  // Top
+        20, 21, 23, 21, 22, 23   // Bottom
     };
 
     auto renderDevice = std::make_unique<GLRenderDevice>();
     m_vertexArray = renderDevice->createVertexArray();
 
+    m_shader = renderDevice->createShaderProgram(vertexShaderSource, fragmentShaderSource);
+
     auto vertexBuffer = renderDevice->createVertexBuffer(vertices, sizeof(vertices));
     auto indexBuffer = renderDevice->createIndexBuffer(indices, sizeof(indices));
 
-    VertexLayout layout = {
-        { VertexSemantic::Position, VertexElementType::Float3 }, 
-        { VertexSemantic::Color, VertexElementType::Float4 }
-    };
+    VertexLayout layout = {{VertexSemantic::Position, VertexElementType::Float3}, {VertexSemantic::Color, VertexElementType::Float4}};
 
     vertexBuffer->setLayout(layout);
 
     m_vertexArray->addVertexBuffer(vertexBuffer);
     m_vertexArray->setIndexBuffer(indexBuffer);
     m_vertexArray->bind();
+    m_shader->bind();
 }
 
 Renderer::~Renderer()
 {
     m_vertexArray->unbind();
+    m_shader->unbind();
 }
 
 void Renderer::tick(float dt)
 {
     RenderCommand::setClearColor({0.2f, 0.3f, 0.3f, 1.0f});
     RenderCommand::clear();
+
+    m_rotation += dt;
+
+    glm::mat4 model(1.0f);
+    model = glm::rotate(model, m_rotation, glm::vec3(1.0f, 1.0f, 0.0f));
+    glm::mat4 view(1.0f);
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1280 / (float)720, 0.1f, 100.0f);
+
+    m_shader->setMat4("model", glm::value_ptr(model));
+    m_shader->setMat4("view", glm::value_ptr(m_camera.viewMatrix()));
+    m_shader->setMat4("projection", glm::value_ptr(m_camera.projectionMatrix()));
 
     RenderCommand::drawIndexed(m_vertexArray);
 }

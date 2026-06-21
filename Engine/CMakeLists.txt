@@ -8,6 +8,15 @@ set(CMAKE_CXX_STANDARD 23)
 project(DarrJorgeEngine VERSION 1.0.0)
 add_executable(${PROJECT_NAME} Source/main.cpp)
 
+option(ENGINE_USE_GLFW "Use GLFW as window backend" ON)
+set(ENGINE_RENDERER_API "OpenGL" CACHE STRING "Renderer backend")
+
+set_property(CACHE ENGINE_RENDERER_API PROPERTY STRINGS
+    OpenGL
+    D3D12
+    Vulkan
+)
+
 # version
 configure_file(EngineConfig.h.template ${CMAKE_CURRENT_SOURCE_DIR}/Source/EngineConfig.h)
 
@@ -15,6 +24,8 @@ configure_file(EngineConfig.h.template ${CMAKE_CURRENT_SOURCE_DIR}/Source/Engine
 set(ENGINE_SOURCES 
     Source/Core/Engine.h
     Source/Core/Engine.cpp
+    Source/Core/Camera.h
+    Source/Core/Camera.cpp    
     Source/Core/Utility.h
     Source/Core/MathTypes.h
     Source/Core/MathTypes.cpp      
@@ -23,6 +34,8 @@ set(ENGINE_SOURCES
     Source/Window/IWindow.h
     Source/Window/WindowManager.h
     Source/Window/WindowManager.cpp
+    Source/Window/WindowManagerFactory.h
+    Source/Window/WindowManagerFactory.cpp
     Source/Window/GLFW/GLFWWindow.h
     Source/Window/GLFW/GLFWWindow.cpp
     Source/Window/GLFW/GLFWWindowManager.h
@@ -38,7 +51,8 @@ set(ENGINE_SOURCES
     Source/Render/RHI/Shader.h     
     Source/Render/RHI/Shader.cpp         
     Source/Render/RHI/IBuffer.h
-    Source/Render/RHI/IBuffer.cpp    
+    Source/Render/RHI/IBuffer.cpp
+    Source/Render/RHI/IShader.h    
     Source/Render/OpenGL/GLBuffer.h
     Source/Render/OpenGL/GLBuffer.cpp
     Source/Render/OpenGL/GLVertexArray.h
@@ -47,8 +61,14 @@ set(ENGINE_SOURCES
     Source/Render/OpenGL/GLRenderDevice.cpp
     Source/Render/OpenGL/GLRendererAPI.cpp
     Source/Render/OpenGL/GLRendererAPI.h
+    Source/Render/OpenGL/GLShader.cpp
+    Source/Render/OpenGL/GLShader.h    
     Source/Event/Event.h
     Source/Event/InputEvent.h
+    Source/Resource/Mesh.h
+    Source/Resource/Mesh.cpp
+    Source/Resource/MeshFactory.h
+    Source/Resource/Mesh.cpp            
 )
 
 if (WIN32)
@@ -63,7 +83,38 @@ endif()
 
 add_library(${PROJECT_NAME}Lib ${ENGINE_SOURCES})
 target_include_directories(${PROJECT_NAME}Lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Source)
-target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}Lib)
+
+# ###
+# window backend
+# ###
+if (WIN32)
+    if(ENGINE_USE_GLFW)
+        target_compile_definitions(${PROJECT_NAME}Lib PRIVATE ENGINE_USE_GLFW)
+    else()
+        target_compile_definitions(${PROJECT_NAME}Lib PRIVATE ENGINE_USE_WINAPI)
+    endif()
+endif()
+
+# ###
+# renderer backend
+# ###
+if (ENGINE_RENDERER_API STREQUAL "OpenGL")
+    target_compile_definitions(${PROJECT_NAME}Lib PRIVATE ENGINE_RENDERER_OPENGL)
+
+elseif (ENGINE_RENDERER_API STREQUAL "D3D12")
+    target_compile_definitions(${PROJECT_NAME}Lib PRIVATE ENGINE_RENDERER_D3D12)
+
+elseif (ENGINE_RENDERER_API STREQUAL "Vulkan")
+    target_compile_definitions(${PROJECT_NAME}Lib PRIVATE ENGINE_RENDERER_VULKAN)
+else()
+    message(FATAL_ERROR "Unknown renderer backend: ${ENGINE_RENDERER_API}")
+endif()
+
+# ###
+# libs
+# ###
+find_package(boost REQUIRED)
+target_link_libraries(${PROJECT_NAME} boost::boost ${PROJECT_NAME}Lib)
 
 if (MSVC)
     target_compile_options(${PROJECT_NAME}Lib PUBLIC /Zc:preprocessor)

@@ -8,7 +8,7 @@ DEFINE_LOG_CATEGORY_STATIC(LogOpenGLBuffer);
 
 namespace
 {
-GLenum ConvertUsage(BufferUsage usage) 
+GLenum ConvertUsage(BufferUsage usage)
 {
     switch (usage)
     {
@@ -19,7 +19,7 @@ GLenum ConvertUsage(BufferUsage usage)
 
     return GL_STATIC_DRAW;
 }
-}
+}  // namespace
 
 // Vertex Buffer
 

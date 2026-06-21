@@ -18,4 +18,4 @@ struct InputEvent
 {
     EventType type;
 };
-}
+}  // namespace DarrJorge
