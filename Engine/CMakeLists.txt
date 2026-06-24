@@ -68,7 +68,11 @@ set(ENGINE_SOURCES
     Source/Resource/Mesh.h
     Source/Resource/Mesh.cpp
     Source/Resource/MeshFactory.h
-    Source/Resource/Mesh.cpp            
+    Source/Resource/Mesh.cpp 
+    Source/Scene/Scene.h
+    Source/Scene/Scene.cpp
+    Source/Scene/Transform.h
+    Source/Scene/Transform.cpp           
 )
 
 if (WIN32)
