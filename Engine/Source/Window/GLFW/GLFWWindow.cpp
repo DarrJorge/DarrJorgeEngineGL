@@ -15,8 +15,8 @@ GLFWWindow::GLFWWindow(WindowId id, const WindowSettings& settings) : m_id(id)
         LOG(LogGLFWWindow, Error, "Failed to create GLFW window.");
         return;
     }
-    glfwSetWindowPos(m_window, settings.x, settings.y);
 
+    glfwSetWindowPos(m_window, settings.x, settings.y);
     glfwSetWindowUserPointer(m_window, this);
 
     glfwSetWindowCloseCallback(m_window,
@@ -25,6 +25,7 @@ GLFWWindow::GLFWWindow(WindowId id, const WindowSettings& settings) : m_id(id)
             auto* thisWindow = static_cast<GLFWWindow*>(glfwGetWindowUserPointer(window));
             InputEvent event{};
             event.type = EventType::WindowClose;
+            event.data = WindowCloseEventData{thisWindow->m_id.value};
             thisWindow->m_windowEvent.invoke(event);
         });
 
@@ -34,6 +35,7 @@ GLFWWindow::GLFWWindow(WindowId id, const WindowSettings& settings) : m_id(id)
             auto* thisWindow = static_cast<GLFWWindow*>(glfwGetWindowUserPointer(window));
             InputEvent event{};
             event.type = EventType::WindowResize;
+            event.data = WindowResizeEventData{width, height};
             thisWindow->m_windowEvent.invoke(event);
         });
 
@@ -52,6 +54,7 @@ GLFWWindow::GLFWWindow(WindowId id, const WindowSettings& settings) : m_id(id)
             auto* thisWindow = static_cast<GLFWWindow*>(glfwGetWindowUserPointer(window));
             InputEvent event{};
             event.type = EventType::MouseMove;
+            event.data = MouseMoveEventData{xpos, ypos};
             thisWindow->m_windowEvent.invoke(event);
         });
 
@@ -65,11 +68,12 @@ GLFWWindow::GLFWWindow(WindowId id, const WindowSettings& settings) : m_id(id)
         });
 
     glfwSetScrollCallback(m_window,
-        [](GLFWwindow* window, double xoffset, double yoffset)
+        [](GLFWwindow* window, double xOffset, double yOffset)
         {
             auto* thisWindow = static_cast<GLFWWindow*>(glfwGetWindowUserPointer(window));
             InputEvent event{};
             event.type = EventType::MouseScroll;
+            event.data = MouseScrollEventData{xOffset, yOffset};
             thisWindow->m_windowEvent.invoke(event);
         });
 }
@@ -110,4 +114,9 @@ void GLFWWindow::swapBuffers()
 {
     if (!m_window) return;
     glfwSwapBuffers(m_window);
+}
+
+Event<const InputEvent&>& GLFWWindow::windowEvent()
+{
+    return m_windowEvent;
 }

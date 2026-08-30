@@ -21,7 +21,10 @@ public:
     bool shouldClose() const override;
     void swapBuffers() override;
 
+    Event<const InputEvent&>& windowEvent() override;
+
 private:
     HWND m_window{nullptr};
+    Event<const InputEvent&> m_windowEvent;
 };
 }  // namespace DarrJorge

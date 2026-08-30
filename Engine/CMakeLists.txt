@@ -24,8 +24,8 @@ configure_file(EngineConfig.h.template ${CMAKE_CURRENT_SOURCE_DIR}/Source/Engine
 set(ENGINE_SOURCES 
     Source/Core/Engine.h
     Source/Core/Engine.cpp
-    Source/Core/Camera.h
-    Source/Core/Camera.cpp    
+    Source/Scene/Camera.h
+    Source/Scene/Camera.cpp    
     Source/Core/Utility.h
     Source/Core/MathTypes.h
     Source/Core/MathTypes.cpp      
@@ -71,8 +71,24 @@ set(ENGINE_SOURCES
     Source/Resource/Mesh.cpp 
     Source/Scene/Scene.h
     Source/Scene/Scene.cpp
-    Source/Scene/Transform.h
-    Source/Scene/Transform.cpp           
+    Source/Scene/SceneFactory.h
+    Source/Scene/SceneFactory.cpp
+    Source/Scene/Entity.h
+    Source/Scene/Entity.cpp
+    Source/Scene/Components/Component.cpp
+    Source/Scene/Components/Component.h
+    Source/Scene/Components/TransformComponent.h
+    Source/Scene/Components/TransformComponent.cpp
+    Source/Scene/Components/MeshRendererComponent.cpp
+    Source/Scene/Components/MeshRendererComponent.h
+    Source/Scene/Components/CameraComponent.h
+    Source/Scene/Components/CameraComponent.cpp
+    Source/Scene/Components/RotatorComponent.h
+    Source/Scene/Components/RotatorComponent.cpp
+    Source/Resource/Material.cpp
+    Source/Resource/Material.h
+    Source/Resource/MeshFactory.h
+    Source/Resource/MeshFactory.cpp
 )
 
 if (WIN32)
@@ -87,6 +103,10 @@ endif()
 
 add_library(${PROJECT_NAME}Lib ${ENGINE_SOURCES})
 target_include_directories(${PROJECT_NAME}Lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Source)
+
+# tests
+add_executable(${PROJECT_NAME}TestRunner Tests/LogInputEvent.cpp Tests/LogEvents.cpp)
+target_link_libraries(${PROJECT_NAME}TestRunner PRIVATE ${PROJECT_NAME}Lib)
 
 # ###
 # window backend
@@ -134,8 +154,11 @@ target_link_libraries(${PROJECT_NAME}Lib PRIVATE glad::glad)
 find_package(glfw3 REQUIRED)
 target_link_libraries(${PROJECT_NAME}Lib PRIVATE glfw)
 
-find_package(glm REQUIRED)
-target_link_libraries(${PROJECT_NAME}Lib PRIVATE glm::glm)
+find_package(glm CONFIG REQUIRED)
+target_link_libraries(${PROJECT_NAME}Lib PUBLIC glm::glm)
+
+find_package(GTest REQUIRED)
+target_link_libraries(${PROJECT_NAME}TestRunner PRIVATE gtest::gtest)
 
 # folders
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

@@ -16,5 +16,5 @@ AlignAfterOpenBracket: DontAlign
 Cpp11BracedListStyle: true
 BinPackArguments: true
 BinPackParameters: true
-BinPackLongBracedList: true
+#BinPackLongBracedList: true
 BreakArrays: false

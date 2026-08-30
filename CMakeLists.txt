@@ -9,7 +9,18 @@ set(PROFILE_PATH_Linux_Debug "${CMAKE_CURRENT_SOURCE_DIR}/automation/ConanProfil
 set(PROFILE_PATH_Darwin_Release "${CMAKE_CURRENT_SOURCE_DIR}/automation/ConanProfiles/macosRelease")
 set(PROFILE_PATH_Darwin_Debug "${CMAKE_CURRENT_SOURCE_DIR}/automation/ConanProfiles/macosDebug")
 
+message(STATUS "Host: ${CMAKE_HOST_SYSTEM_NAME}")
+message(STATUS "Build type: '${CMAKE_BUILD_TYPE}'")
+
+if(NOT WIN32)
+    if(NOT CMAKE_BUILD_TYPE)
+        message(STATUS "CMAKE_BUILD_TYPE is not set. Defaulting to Debug.")
+        set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
+    endif()
+endif()
+
 set(CURRENT_PROFILE "PROFILE_PATH_${CMAKE_HOST_SYSTEM_NAME}_${CMAKE_BUILD_TYPE}")
+
 if (DEFINED ${CURRENT_PROFILE})
     set(CONAN_PROFILE "${${CURRENT_PROFILE}}")
 else()

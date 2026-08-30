@@ -38,7 +38,7 @@ void Camera::setPerspective(float fovDegrees, float aspectRatio, float nearPlane
 
 void Camera::updateView()
 {
-    m_view = glm::lookAt(m_position, m_position + m_forward, m_up);
+    m_view = glm::lookAt(m_position, m_position + c_forward, c_up);
 }
 
 void Camera::updateProjection()

@@ -6,16 +6,17 @@
 
 namespace DarrJorge
 {
-class IShader;
 class IVertexArray;
 
 class Mesh
 {
 public:
-    Mesh(std::shared_ptr<IVertexArray> vertexArray, std::shared_ptr<IShader> shader);
+    explicit Mesh(std::shared_ptr<IVertexArray> vao);
+
+    IVertexArray* vertexArray();
+    [[nodiscard]] const IVertexArray& vertexArray() const;
 
 private:
     std::shared_ptr<IVertexArray> m_vertexArray;
-    std::shared_ptr<IShader> m_shader;
 };
 }  // namespace DarrJorge

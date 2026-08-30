@@ -59,3 +59,8 @@ bool WinAPIWindow::shouldClose() const
 }
 
 void WinAPIWindow::swapBuffers() {}
+
+Event<const InputEvent&>& WinAPIWindow::windowEvent()
+{
+    return m_windowEvent;
+}

@@ -2,13 +2,17 @@
 
 #include <functional>
 #include <string>
+#include <cstdint>
+
+#include "Event/Event.h"
+#include "Event/InputEvent.h"
 
 namespace DarrJorge
 {
 struct WindowId
 {
-    unsigned int value{0};
-    constexpr explicit WindowId(unsigned int id) : value(id) {}
+    uint32_t value{0};
+    constexpr explicit WindowId(uint32_t id) : value(id) {}
 
     constexpr WindowId operator++(int)
     {
@@ -36,11 +40,12 @@ public:
 
     virtual void setTitle(const std::string& title) = 0;
     virtual void setWindowForCurrentContext() = 0;
+    virtual void swapBuffers() = 0;
 
     virtual bool isValid() const = 0;
     virtual bool shouldClose() const = 0;
 
-    virtual void swapBuffers() = 0;
+    virtual Event<const InputEvent&>& windowEvent() = 0;
 };
 }  // namespace DarrJorge
 
@@ -49,6 +54,6 @@ namespace std
 template <>
 struct hash<DarrJorge::WindowId>
 {
-    size_t operator()(const DarrJorge::WindowId& id) const noexcept { return std::hash<unsigned int>{}(id.value); }
+    size_t operator()(const DarrJorge::WindowId& id) const noexcept { return std::hash<uint32_t>{}(id.value); }
 };
 }  // namespace std

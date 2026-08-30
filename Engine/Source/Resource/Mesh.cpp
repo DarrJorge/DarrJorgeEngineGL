@@ -2,4 +2,17 @@
 
 using namespace DarrJorge;
 
-Mesh::Mesh(std::shared_ptr<IVertexArray> vertexArray, std::shared_ptr<IShader> shader) : m_vertexArray(vertexArray), m_shader(m_shader) {}
+Mesh::Mesh(std::shared_ptr<IVertexArray> vertexArray)
+    : m_vertexArray(std::move(vertexArray))
+{
+}
+
+IVertexArray* Mesh::vertexArray()
+{
+    return m_vertexArray.get();
+}
+
+const IVertexArray& Mesh::vertexArray() const
+{
+    return *m_vertexArray;
+}

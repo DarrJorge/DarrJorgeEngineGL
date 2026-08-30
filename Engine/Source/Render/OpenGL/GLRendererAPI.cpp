@@ -16,7 +16,8 @@ void GLRendererAPI::clear()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void GLRendererAPI::drawIndexed(const std::shared_ptr<IVertexArray>& vertexArray)
+void GLRendererAPI::drawIndexed(IVertexArray* vertexArray)
 {
+    if (!vertexArray) return;
     glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
 }

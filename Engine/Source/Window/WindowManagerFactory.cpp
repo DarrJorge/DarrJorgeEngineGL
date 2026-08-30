@@ -1,8 +1,17 @@
 #include "WindowManagerFactory.h"
-#include "GLFW/GLFWWindowManager.h"
-#include "WinAPI/WinAPIWindowManager.h"
-
 #include "WindowManager.h"
+
+#if defined(_WIN32)
+#ifdef ENGINE_USE_GLFW
+#include "GLFW/GLFWWindowManager.h"
+#else
+#include "WinAPI/WinAPIWindowManager.h"
+#endif
+#elif defined(__linux__)
+#include "GLFW/GLFWWindowManager.h"
+#elif defined(__APPLE__)
+#include "GLFW/GLFWWindowManager.h"
+#endif
 
 using namespace DarrJorge;
 

@@ -25,6 +25,8 @@ public:
 
     void swapBuffers() override;
 
+    Event<const InputEvent&>& windowEvent() override;
+
 private:
     const WindowId m_id;
     GLFWwindow* m_window{nullptr};

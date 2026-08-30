@@ -10,9 +10,13 @@ protected:
 
     NonCopyable(const NonCopyable&) = delete;
     NonCopyable& operator=(const NonCopyable&) = delete;
+};
 
-    NonCopyable(const NonCopyable&&) = delete;
-    NonCopyable& operator=(const NonCopyable&&) = delete;
+class NonMoveable
+{
+protected:
+    NonMoveable(const NonCopyable&&) = delete;
+    NonMoveable& operator=(const NonCopyable&&) = delete;
 };
 }  // namespace DarrJorge
 
