@@ -5,12 +5,7 @@
 #include <unordered_map>
 #include <cstdint>
 
-#include <Log/Log.h>
 #include "InputEvent.h"
-
-using namespace DarrJorge;
-
-DEFINE_LOG_CATEGORY_STATIC(LogEvent);
 
 namespace DarrJorge
 {

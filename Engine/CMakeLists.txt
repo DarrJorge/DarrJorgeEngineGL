@@ -43,7 +43,8 @@ set(ENGINE_SOURCES
     Source/Render/Renderer/Renderer.h
     Source/Render/Renderer/Renderer.cpp 
     Source/Render/Renderer/RendererAPI.h
-    Source/Render/Renderer/RendererAPI.cpp
+    Source/Render/Renderer/RendererAPIFactory.h
+    Source/Render/Renderer/RendererAPIFactory.cpp
     Source/Render/Renderer/RenderCommand.h
     Source/Render/Renderer/RenderCommand.cpp
     Source/Render/RHI/IVertexArray.h

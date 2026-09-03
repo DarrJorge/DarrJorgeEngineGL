@@ -5,9 +5,13 @@
 
 using namespace DarrJorge;
 
-void GLRendererAPI::setClearColor(const Math::Vec4& color)
+void GLRendererAPI::init()
 {
     glEnable(GL_DEPTH_TEST);
+}
+
+void GLRendererAPI::setClearColor(const Math::Vec4& color)
+{
     glClearColor(color.r, color.g, color.b, color.a);
 }
 

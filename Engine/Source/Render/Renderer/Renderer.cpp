@@ -20,6 +20,8 @@ DEFINE_LOG_CATEGORY_STATIC(LogRenderer);
 
 Renderer::Renderer()
 {
+    RenderCommand::init();
+
     LOG(LogRenderer, Display, "Renderer construct ");
 }
 
