@@ -46,3 +46,13 @@ void RenderCommand::clear()
     }
     s_api->clear();
 }
+
+void RenderCommand::setViewport(int x, int y, int width, int height)
+{
+    if (!s_api)
+    {
+        LOG(LogRenderCommand, Error, "RenderCommand::setViewport called before init()");
+        return;
+    }
+    s_api->setViewport(x, y, width, height);
+}

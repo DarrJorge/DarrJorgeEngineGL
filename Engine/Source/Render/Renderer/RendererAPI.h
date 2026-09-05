@@ -19,5 +19,6 @@ public:
     virtual void clear() = 0;
 
     virtual void drawIndexed(IVertexArray* vertexArray) = 0;
+    virtual void setViewport(int x, int y, int width, int height) = 0;
 };
 }  // namespace DarrJorge

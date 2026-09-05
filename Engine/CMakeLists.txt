@@ -49,8 +49,8 @@ set(ENGINE_SOURCES
     Source/Render/Renderer/RenderCommand.cpp
     Source/Render/RHI/IVertexArray.h
     Source/Render/RHI/RenderDevice.h
-    Source/Render/RHI/Shader.h     
-    Source/Render/RHI/Shader.cpp         
+    Source/Render/RHI/RenderDeviceFactory.h
+    Source/Render/RHI/RenderDeviceFactory.cpp      
     Source/Render/RHI/IBuffer.h
     Source/Render/RHI/IBuffer.cpp
     Source/Render/RHI/IShader.h    

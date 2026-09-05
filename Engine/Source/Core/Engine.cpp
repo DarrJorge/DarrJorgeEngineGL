@@ -68,6 +68,10 @@ void Engine::onWindowEvent(const InputEvent& event)
     else if (auto* data = std::get_if<WindowResizeEventData>(&event.data))
     {
         LOG(LogEngine, Display, "Window Resize");
+
+        m_renderer->onResize(data->width, data->height);
+        m_scene->onResize(data->width, data->height);
+
     }
     else if (auto* data = std::get_if<WindowCloseEventData>(&event.data))
     {

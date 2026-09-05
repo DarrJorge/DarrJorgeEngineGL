@@ -45,3 +45,8 @@ void Camera::updateProjection()
 {
     m_projection = glm::perspective(glm::radians(m_fov), m_aspectRatio, m_nearPlane, m_farPlane);
 }
+
+void Camera::setAspectRatio(float aspect)
+{
+    m_aspectRatio = aspect;
+}

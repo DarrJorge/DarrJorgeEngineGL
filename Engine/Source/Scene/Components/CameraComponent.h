@@ -16,6 +16,8 @@ public:
     [[nodiscard]] const glm::mat4& viewMatrix() const;
     [[nodiscard]] const glm::mat4& projectionMatrix() const;
 
+    void setAspectRatio(float aspectRatio);
+
 private:
     Camera m_camera;
 };

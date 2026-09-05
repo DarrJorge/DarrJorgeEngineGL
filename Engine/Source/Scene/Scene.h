@@ -19,6 +19,8 @@ public:
     void setActiveCamera(std::shared_ptr<Entity> cameraEntity);
     [[nodiscard]] CameraComponent* activeCamera() const;
 
+    void onResize(int width, int height);
+
 private:
     std::vector<std::shared_ptr<Entity>> m_entities;
     std::shared_ptr<Entity> m_activeCameraEntity;

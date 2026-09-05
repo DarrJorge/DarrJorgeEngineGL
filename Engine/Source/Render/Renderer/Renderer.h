@@ -11,6 +11,7 @@ public:
     ~Renderer();
 
     void render(const Scene& scene);
+    void onResize(int width, int height);
 
 private:
     void beginFrame();

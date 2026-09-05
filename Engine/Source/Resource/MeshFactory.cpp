@@ -3,10 +3,12 @@
 #include "Resource/Material.h"
 #include "Render/RHI/IBuffer.h"
 #include "Render/RHI/IVertexArray.h"
-#include <cstdint>
-#include "Render/OpenGL/GLRenderDevice.h"
+#include "Render/RHI/RenderDeviceFactory.h"
 #include "Render/RHI/IShader.h"
+#include "Render/RHI/RenderDevice.h"
+
 #include <memory>
+#include <cstdint>
 
 using namespace DarrJorge;
 
@@ -92,7 +94,7 @@ MeshAndMaterial MeshFactory::createCube()
         20, 21, 23, 21, 22, 23   // Bottom
     };
 
-    auto renderDevice = std::make_unique<GLRenderDevice>();
+    auto renderDevice = RenderDeviceFactory::Create();
     auto vertexArray = renderDevice->createVertexArray();
     std::shared_ptr mesh = std::make_shared<Mesh>(vertexArray);
 

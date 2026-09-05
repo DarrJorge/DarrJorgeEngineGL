@@ -21,3 +21,8 @@ const glm::mat4& CameraComponent::projectionMatrix() const
 {
     return m_camera.projectionMatrix();
 }
+
+void CameraComponent::setAspectRatio(float aspectRatio)
+{
+    m_camera.setAspectRatio(aspectRatio);
+}

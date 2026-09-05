@@ -15,6 +15,8 @@ public:
     void setPosition(const glm::vec3& position);
     void setPerspective(float fovDegrees, float aspectRatio, float nearPlane, float farPlane);
 
+    void setAspectRatio(float aspect);
+
 private:
     void updateView();
     void updateProjection();

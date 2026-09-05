@@ -69,3 +69,8 @@ void Renderer::render(const Scene& scene)
 }
 
 void Renderer::endFrame() {}
+
+void Renderer::onResize(int width, int height)
+{
+    RenderCommand::setViewport(0, 0, width, height);
+}

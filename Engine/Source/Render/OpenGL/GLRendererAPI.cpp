@@ -25,3 +25,8 @@ void GLRendererAPI::drawIndexed(IVertexArray* vertexArray)
     if (!vertexArray) return;
     glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
 }
+
+void GLRendererAPI::setViewport(int x, int y, int width, int height)
+{
+    glViewport(x, y, width, height);
+}

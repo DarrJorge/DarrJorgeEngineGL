@@ -31,3 +31,12 @@ CameraComponent* Scene::activeCamera() const
 {
     return m_activeCameraEntity ? m_activeCameraEntity->getComponent<CameraComponent>() : nullptr;
 }
+
+void Scene::onResize(int width, int height)
+{
+    if (auto* camera = activeCamera())
+    {
+        const float aspect = height > 0 ? static_cast<float>(width) / static_cast<float>(height) : 1.0;
+        camera->setAspectRatio(aspect);
+    }
+}
