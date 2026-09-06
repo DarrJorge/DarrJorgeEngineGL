@@ -27,6 +27,8 @@ set(ENGINE_SOURCES
     Source/Scene/Camera.h
     Source/Scene/Camera.cpp    
     Source/Core/Utility.h
+    Source/Core/FileUtils.h
+    Source/Core/FileUtils.cpp
     Source/Core/MathTypes.h
     Source/Core/MathTypes.cpp      
     Source/Log/Log.h
@@ -90,6 +92,8 @@ set(ENGINE_SOURCES
     Source/Resource/Material.h
     Source/Resource/MeshFactory.h
     Source/Resource/MeshFactory.cpp
+    Source/Resource/ShaderFactory.h
+    Source/Resource/ShaderFactory.cpp
 )
 
 if (WIN32)

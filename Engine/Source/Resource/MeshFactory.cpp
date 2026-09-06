@@ -6,42 +6,13 @@
 #include "Render/RHI/RenderDeviceFactory.h"
 #include "Render/RHI/IShader.h"
 #include "Render/RHI/RenderDevice.h"
+#include "Resource/ShaderFactory.h"
+#include "EngineConfig.h"
 
 #include <memory>
 #include <cstdint>
 
 using namespace DarrJorge;
-
-namespace
-{
-static const char* vertexShaderSource = R"(
-        #version 330 core
-        layout (location = 0) in vec3 aPos;
-        layout (location = 1) in vec4 aColor;
-        out vec4 uColor;
-
-        uniform mat4 model;
-        uniform mat4 view;
-        uniform mat4 projection;
-
-        void main()
-        {
-            uColor = aColor;
-            gl_Position = projection * view * model * vec4(aPos, 1.0);
-        }
-    )";
-
-static const char* fragmentShaderSource = R"(
-        #version 330 core
-        in vec4 uColor;
-        out vec4 FragColor;
-        uniform vec3 ourColor;
-        void main()
-        {
-            FragColor = uColor;
-        }
-    )";
-}  // namespace
 
 MeshAndMaterial MeshFactory::createCube()
 {
@@ -98,7 +69,9 @@ MeshAndMaterial MeshFactory::createCube()
     auto vertexArray = renderDevice->createVertexArray();
     std::shared_ptr mesh = std::make_shared<Mesh>(vertexArray);
 
-    auto shader = renderDevice->createShaderProgram(vertexShaderSource, fragmentShaderSource);
+    auto shader = ShaderFactory::createShader(
+        std::string(ENGINE_RESOURCES_DIR) + "/Shaders/vertex.shader",
+        std::string(ENGINE_RESOURCES_DIR) + "/Shaders/fragment.shader");
 
     auto vertexBuffer = renderDevice->createVertexBuffer(vertices, sizeof(vertices));
     auto indexBuffer = renderDevice->createIndexBuffer(indices, std::size(indices));
