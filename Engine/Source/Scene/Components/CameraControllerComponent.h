@@ -10,7 +10,7 @@ namespace DarrJorge
 {
 class CameraComponent;
 
-class CameraControllerComponent : public Component
+class CameraControllerComponent : public ComponentBase<CameraControllerComponent>
 {
 public:
     explicit CameraControllerComponent(float moveSpeed = 3.0f, float lookSensitivity = 0.1f);

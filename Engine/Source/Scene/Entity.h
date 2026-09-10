@@ -1,13 +1,15 @@
 #pragma once
 
 #include <memory>
+#include <unordered_map>
+
+#include "Components/Component.h"
 #include <Core/Utility.h>
 
 namespace DarrJorge
 {
 class Mesh;
 class MeshRendererComponent;
-class Component;
 
 class Entity
 {
@@ -30,7 +32,7 @@ public:
         auto component = std::make_unique<T>(std::forward<Args>(args)...);
         component->m_owner = this;
         T& result = *component;
-        m_components.emplace_back(std::move(component));
+        m_components[ComponentTypeIdGenerator::get<T>()] = std::move(component);
         return result;
     }
 
@@ -39,14 +41,8 @@ public:
     {
         static_assert(std::is_base_of_v<Component, T>);
 
-        for (auto& component : m_components)
-        {
-            if (auto ptr = dynamic_cast<T*>(component.get()))
-            {
-                return ptr;
-            }
-        }
-        return nullptr;
+        const auto it = m_components.find(ComponentTypeIdGenerator::get<T>());
+        return it != m_components.end() ? static_cast<T*>(it->second.get()) : nullptr;
     }
 
     template <typename T>
@@ -54,14 +50,8 @@ public:
     {
         static_assert(std::is_base_of_v<Component, T>);
 
-        for (auto& component : m_components)
-        {
-            if (auto ptr = dynamic_cast<T*>(component.get()))
-            {
-                return ptr;
-            }
-        }
-        return nullptr;
+        const auto it = m_components.find(ComponentTypeIdGenerator::get<T>());
+        return it != m_components.end() ? static_cast<T*>(it->second.get()) : nullptr;
     }
 
     template <typename T>
@@ -75,16 +65,12 @@ public:
     {
         static_assert(std::is_base_of_v<Component, T>);
 
-        m_components.erase(std::remove_if(m_components.begin(), m_components.end(),
-            [](const auto& component){
-                return dynamic_cast<T*>(component.get()) != nullptr;
-            }),
-            m_components.end());
+        m_components.erase(ComponentTypeIdGenerator::get<T>());
     }
 
     void update(float deltaTime);
 
 private:
-    std::vector<std::unique_ptr<Component>> m_components;
+    std::unordered_map<ComponentTypeId, std::unique_ptr<Component>> m_components;
 };
 }

@@ -8,7 +8,7 @@ namespace DarrJorge
 class Mesh;
 class Material;
 
-class MeshRendererComponent : public Component
+class MeshRendererComponent : public ComponentBase<MeshRendererComponent>
 {
 public:
     MeshRendererComponent(std::shared_ptr<Mesh> mesh, std::shared_ptr<Material> material);

@@ -9,7 +9,7 @@
 
 namespace DarrJorge
 {
-class TransformComponent : public Component
+class TransformComponent : public ComponentBase<TransformComponent>
 {
 public:
     [[nodiscard]] glm::mat4 matrix() const;

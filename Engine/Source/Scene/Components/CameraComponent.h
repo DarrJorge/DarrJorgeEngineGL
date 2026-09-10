@@ -5,7 +5,7 @@
 
 namespace DarrJorge
 {
-class CameraComponent : public Component
+class CameraComponent : public ComponentBase<CameraComponent>
 {
 public:
     CameraComponent() = default;

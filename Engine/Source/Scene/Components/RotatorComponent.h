@@ -5,7 +5,7 @@
 
 namespace DarrJorge
 {
-class RotatorComponent : public Component
+class RotatorComponent : public ComponentBase<RotatorComponent>
 {
 public:
     explicit RotatorComponent(const glm::vec3& angularVelocityRadiansPerSecond);
