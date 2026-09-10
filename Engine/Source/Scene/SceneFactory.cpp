@@ -5,6 +5,7 @@
 #include "Components/TransformComponent.h"
 #include "Components/MeshRendererComponent.h"
 #include "Components/RotatorComponent.h"
+#include "Components/CameraControllerComponent.h"
 #include "Resource/MeshFactory.h"
 
 using namespace DarrJorge;
@@ -23,6 +24,7 @@ std::unique_ptr<Scene> SceneFactory::createDemoScene()
 
     std::shared_ptr<Entity> cameraEntity = std::make_shared<Entity>();
     cameraEntity->addComponent<CameraComponent>();
+    cameraEntity->addComponent<CameraControllerComponent>();
     scene->addObject(cameraEntity);
     scene->setActiveCamera(cameraEntity);
     // end

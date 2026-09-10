@@ -26,3 +26,23 @@ void CameraComponent::setAspectRatio(float aspectRatio)
 {
     m_camera.setAspectRatio(aspectRatio);
 }
+
+void CameraComponent::rotate(float deltaYawDegrees, float deltaPitchDegrees)
+{
+    m_camera.rotate(deltaYawDegrees, deltaPitchDegrees);
+}
+
+const glm::vec3& CameraComponent::position() const
+{
+    return m_camera.position();
+}
+
+const glm::vec3& CameraComponent::forward() const
+{
+    return m_camera.forward();
+}
+
+glm::vec3 CameraComponent::right() const
+{
+    return m_camera.right();
+}

@@ -5,6 +5,9 @@
 
 namespace DarrJorge
 {
+enum class KeyCode : uint8_t { Unknown = 0, W, A, S, D, Count };
+enum class KeyAction : uint8_t { Pressed, Released };
+
 enum class EventType : uint8_t
 {
     WindowClose,
@@ -38,7 +41,13 @@ struct WindowCloseEventData
     unsigned int id;
 };
 
-using EventData = std::variant<std::monostate, MouseMoveEventData, MouseScrollEventData, WindowResizeEventData, WindowCloseEventData>;
+struct KeyEventData
+{
+    KeyCode key;
+    KeyAction action;
+};
+
+using EventData = std::variant<std::monostate, MouseMoveEventData, MouseScrollEventData, WindowResizeEventData, WindowCloseEventData, KeyEventData>;
 
 struct InputEvent
 {

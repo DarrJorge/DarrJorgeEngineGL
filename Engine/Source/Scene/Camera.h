@@ -17,14 +17,24 @@ public:
 
     void setAspectRatio(float aspect);
 
+    void setYawPitch(float yawDegrees, float pitchDegrees);
+    void rotate(float deltaYawDegrees, float deltaPitchDegrees);
+
+    [[nodiscard]] const glm::vec3& position() const;
+    [[nodiscard]] const glm::vec3& forward() const;
+    [[nodiscard]] glm::vec3 right() const;
+
 private:
     void updateView();
     void updateProjection();
+    void updateOrientation();
 
 private:
     glm::vec3 m_position{0.0f, 0.0f, 3.0f};
 
-    static constexpr glm::vec3 c_forward{0.0f, 0.0f, -1.0f};
+    float m_yaw = -90.0f;
+    float m_pitch = 0.0f;
+    glm::vec3 m_forward{0.0f, 0.0f, -1.0f};
     static constexpr glm::vec3 c_up{0.0f, 1.0f, 0.0f};
 
     float m_fov = 45.0f;

@@ -88,6 +88,8 @@ set(ENGINE_SOURCES
     Source/Scene/Components/CameraComponent.cpp
     Source/Scene/Components/RotatorComponent.h
     Source/Scene/Components/RotatorComponent.cpp
+    Source/Scene/Components/CameraControllerComponent.h
+    Source/Scene/Components/CameraControllerComponent.cpp
     Source/Resource/Material.cpp
     Source/Resource/Material.h
     Source/Resource/MeshFactory.h

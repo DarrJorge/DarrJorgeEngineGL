@@ -7,6 +7,21 @@ using namespace DarrJorge;
 
 DEFINE_LOG_CATEGORY_STATIC(LogGLFWWindow);
 
+namespace
+{
+KeyCode ToKeyCode(int glfwKey)
+{
+    switch (glfwKey)
+    {
+        case GLFW_KEY_W: return KeyCode::W;
+        case GLFW_KEY_A: return KeyCode::A;
+        case GLFW_KEY_S: return KeyCode::S;
+        case GLFW_KEY_D: return KeyCode::D;
+        default: return KeyCode::Unknown;
+    }
+}
+}
+
 GLFWWindow::GLFWWindow(WindowId id, const WindowSettings& settings) : m_id(id)
 {
     m_window = glfwCreateWindow(settings.width, settings.height, settings.title.c_str(), nullptr, nullptr);
@@ -18,6 +33,7 @@ GLFWWindow::GLFWWindow(WindowId id, const WindowSettings& settings) : m_id(id)
 
     glfwSetWindowPos(m_window, settings.x, settings.y);
     glfwSetWindowUserPointer(m_window, this);
+    glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     glfwSetWindowCloseCallback(m_window,
         [](GLFWwindow* window)
@@ -42,9 +58,12 @@ GLFWWindow::GLFWWindow(WindowId id, const WindowSettings& settings) : m_id(id)
     glfwSetKeyCallback(m_window,
         [](GLFWwindow* window, int key, int scancode, int action, int mods)
         {
+            if (action != GLFW_PRESS && action != GLFW_RELEASE) return;
+
             auto* thisWindow = static_cast<GLFWWindow*>(glfwGetWindowUserPointer(window));
             InputEvent event{};
             event.type = EventType::KeyPress;
+            event.data = KeyEventData{ ToKeyCode(key), action == GLFW_PRESS ? KeyAction::Pressed : KeyAction::Released };
             thisWindow->m_windowEvent.invoke(event);
         });
 

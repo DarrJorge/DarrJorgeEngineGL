@@ -3,6 +3,8 @@
 #include <vector>
 #include <memory>
 
+#include "Event/InputEvent.h"
+
 namespace DarrJorge
 {
 class Entity;
@@ -20,6 +22,8 @@ public:
     [[nodiscard]] CameraComponent* activeCamera() const;
 
     void onResize(int width, int height);
+    void onKeyEvent(KeyCode key, KeyAction action);
+    void onMouseMove(double x, double y);
 
 private:
     std::vector<std::shared_ptr<Entity>> m_entities;
