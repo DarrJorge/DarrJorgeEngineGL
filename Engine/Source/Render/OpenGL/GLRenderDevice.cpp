@@ -2,6 +2,7 @@
 #include "GLShader.h"
 #include "GLBuffer.h"
 #include "GLVertexArray.h"
+#include "GLTexture.h"
 
 using namespace DarrJorge;
 
@@ -23,4 +24,9 @@ std::shared_ptr<IIndexBuffer> GLRenderDevice::createIndexBuffer(const uint32_t* 
 std::shared_ptr<IVertexArray> GLRenderDevice::createVertexArray()
 {
     return std::make_shared<GLVertexArray>();
+}
+
+std::shared_ptr<ITexture> GLRenderDevice::createTexture(const void* pixels, uint32_t width, uint32_t height, TextureFormat format)
+{
+    return std::make_shared<GLTexture>(pixels, width, height, format);
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include "ITexture.h"
 
 namespace DarrJorge
 {
@@ -26,5 +27,7 @@ public:
     virtual std::shared_ptr<IIndexBuffer> createIndexBuffer(
         const uint32_t* data, uint32_t count, BufferUsage usage = BufferUsage::Static) = 0;
     virtual std::shared_ptr<IVertexArray> createVertexArray() = 0;
+    virtual std::shared_ptr<ITexture> createTexture(
+        const void* pixels, uint32_t width, uint32_t height, TextureFormat format) = 0;
 };
 }  // namespace DarrJorge

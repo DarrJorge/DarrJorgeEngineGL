@@ -11,6 +11,7 @@
 #include "Resource/Material.h"
 #include "Resource/Mesh.h"
 #include "Render/RHI/IShader.h"
+#include "Render/RHI/ITexture.h"
 
 #include <glm/gtc/type_ptr.hpp>
 
@@ -61,6 +62,12 @@ void Renderer::render(const Scene& scene)
         shader.setMat4("model", glm::value_ptr(transform->matrix()));
         shader.setMat4("view", glm::value_ptr(camera->viewMatrix()));
         shader.setMat4("projection", glm::value_ptr(camera->projectionMatrix()));
+
+        if (auto* texture = material.texture())
+        {
+            texture->bind(0);
+            shader.setInt("u_texture", 0);
+        }
 
         RenderCommand::drawIndexed(mesh.vertexArray());
     }

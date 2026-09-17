@@ -1,58 +1,54 @@
 #include "MeshFactory.h"
 #include "Resource/Mesh.h"
-#include "Resource/Material.h"
 #include "Render/RHI/IBuffer.h"
 #include "Render/RHI/IVertexArray.h"
 #include "Render/RHI/RenderDeviceFactory.h"
-#include "Render/RHI/IShader.h"
 #include "Render/RHI/RenderDevice.h"
-#include "Resource/ShaderFactory.h"
-#include "EngineConfig.h"
 
 #include <memory>
 #include <cstdint>
 
 using namespace DarrJorge;
 
-MeshAndMaterial MeshFactory::createCube()
+std::shared_ptr<Mesh> MeshFactory::createCube()
 {
     // clang-format off
     float vertices[] = {
     // Front (0-3)
-     0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f, 1.0f, // 0
-     0.5f, -0.5f,  0.5f, 1.0f, 0.0f, 0.0f, 1.0f, // 1
-    -0.5f, -0.5f,  0.5f, 1.0f, 0.0f, 0.0f, 1.0f, // 2
-    -0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f, 1.0f, // 3
+     0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, // 0
+     0.5f, -0.5f,  0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, // 1
+    -0.5f, -0.5f,  0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // 2
+    -0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, // 3
 
     // Back (4-7)
-     0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, // 4
-    -0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, // 5
-    -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, // 6
-     0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, // 7
+     0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, // 4
+    -0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, // 5
+    -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, // 6
+     0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, // 7
 
     // Left (8-11)
-    -0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 1.0f, // 8
-    -0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 1.0f, // 9
-    -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, // 10
-    -0.5f,  0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, // 11
+    -0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, // 8
+    -0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, // 9
+    -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, // 10
+    -0.5f,  0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, // 11
 
     // Right (12-15)
-     0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 0.0f, 1.0f, // 12
-     0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 1.0f, // 13
-     0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 1.0f, // 14
-     0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 0.0f, 1.0f, // 15
+     0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, // 12
+     0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, // 13
+     0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, // 14
+     0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, // 15
 
     // Top (16-19)
-     0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 1.0f, 1.0f, // 16
-    -0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 1.0f, 1.0f, // 17
-    -0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 1.0f, 1.0f, // 18
-     0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 1.0f, 1.0f, // 19
+     0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, // 16
+    -0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, // 17
+    -0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, // 18
+     0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, // 19
 
     // Bottom (20-23)
-     0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 1.0f, // 20
-     0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, // 21
-    -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, // 22
-    -0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 1.0f, // 23
+     0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, // 20
+     0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, // 21
+    -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, // 22
+    -0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, // 23
 };
     // clang-format on
 
@@ -69,14 +65,13 @@ MeshAndMaterial MeshFactory::createCube()
     auto vertexArray = renderDevice->createVertexArray();
     std::shared_ptr mesh = std::make_shared<Mesh>(vertexArray);
 
-    auto shader = ShaderFactory::createShader(
-        std::string(ENGINE_RESOURCES_DIR) + "/Shaders/vertex.shader",
-        std::string(ENGINE_RESOURCES_DIR) + "/Shaders/fragment.shader");
-
     auto vertexBuffer = renderDevice->createVertexBuffer(vertices, sizeof(vertices));
     auto indexBuffer = renderDevice->createIndexBuffer(indices, std::size(indices));
 
-    VertexLayout layout = {{VertexSemantic::Position, VertexElementType::Float3}, {VertexSemantic::Color, VertexElementType::Float4}};
+    VertexLayout layout = {
+        {VertexSemantic::Position, VertexElementType::Float3},
+        {VertexSemantic::Color, VertexElementType::Float4},
+        {VertexSemantic::TexCoord, VertexElementType::Float2}};
 
     vertexBuffer->setLayout(layout);
 
@@ -84,13 +79,5 @@ MeshAndMaterial MeshFactory::createCube()
     vertexArray->setIndexBuffer(indexBuffer);
     vertexArray->bind();
 
-    shader->bind();
-
-    std::shared_ptr<Material> mat = std::make_shared<Material>(shader);
-
-    MeshAndMaterial str;
-    str.mesh = mesh;
-    str.material = mat;
-
-    return str;
+    return mesh;
 }

@@ -55,7 +55,8 @@ set(ENGINE_SOURCES
     Source/Render/RHI/RenderDeviceFactory.cpp      
     Source/Render/RHI/IBuffer.h
     Source/Render/RHI/IBuffer.cpp
-    Source/Render/RHI/IShader.h    
+    Source/Render/RHI/IShader.h
+    Source/Render/RHI/ITexture.h
     Source/Render/OpenGL/GLBuffer.h
     Source/Render/OpenGL/GLBuffer.cpp
     Source/Render/OpenGL/GLVertexArray.h
@@ -65,7 +66,9 @@ set(ENGINE_SOURCES
     Source/Render/OpenGL/GLRendererAPI.cpp
     Source/Render/OpenGL/GLRendererAPI.h
     Source/Render/OpenGL/GLShader.cpp
-    Source/Render/OpenGL/GLShader.h    
+    Source/Render/OpenGL/GLShader.h
+    Source/Render/OpenGL/GLTexture.h
+    Source/Render/OpenGL/GLTexture.cpp
     Source/Event/Event.h
     Source/Event/InputEvent.h
     Source/Resource/Mesh.h
@@ -92,10 +95,14 @@ set(ENGINE_SOURCES
     Source/Scene/Components/CameraControllerComponent.cpp
     Source/Resource/Material.cpp
     Source/Resource/Material.h
+    Source/Resource/MaterialFactory.h
+    Source/Resource/MaterialFactory.cpp
     Source/Resource/MeshFactory.h
     Source/Resource/MeshFactory.cpp
     Source/Resource/ShaderFactory.h
     Source/Resource/ShaderFactory.cpp
+    Source/Resource/TextureFactory.h
+    Source/Resource/TextureFactory.cpp
 )
 
 if (WIN32)
@@ -157,6 +164,9 @@ target_link_libraries(${PROJECT_NAME}Lib PUBLIC spdlog::spdlog)
 
 find_package(glad REQUIRED)
 target_link_libraries(${PROJECT_NAME}Lib PRIVATE glad::glad)
+
+find_package(stb REQUIRED)
+target_link_libraries(${PROJECT_NAME}Lib PRIVATE stb::stb)
 
 find_package(glfw3 REQUIRED)
 target_link_libraries(${PROJECT_NAME}Lib PRIVATE glfw)

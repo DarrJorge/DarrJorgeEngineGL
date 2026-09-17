@@ -5,6 +5,7 @@ glad/0.1.36
 glm/1.0.1
 boost/1.91.0
 gtest/1.18.0
+stb/cci.20240531
 
 [generators]
 CMakeDeps

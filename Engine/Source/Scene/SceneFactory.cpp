@@ -7,6 +7,7 @@
 #include "Components/RotatorComponent.h"
 #include "Components/CameraControllerComponent.h"
 #include "Resource/MeshFactory.h"
+#include "Resource/MaterialFactory.h"
 
 using namespace DarrJorge;
 
@@ -17,8 +18,11 @@ std::unique_ptr<Scene> SceneFactory::createDemoScene()
     // TODO need replace begin
     std::shared_ptr<Entity> cube = std::make_shared<Entity>();
     cube->addComponent<TransformComponent>();
-    auto str = MeshFactory::createCube();
-    cube->addComponent<MeshRendererComponent>(str.mesh, str.material);
+
+    auto mesh = MeshFactory::createCube();
+    auto material = MaterialFactory::createDefault();
+
+    cube->addComponent<MeshRendererComponent>(mesh, material);
     cube->addComponent<RotatorComponent>(glm::vec3{glm::radians(20.0f), glm::radians(45.0f), 0.0f});
     scene->addObject(cube);
 

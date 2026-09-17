@@ -19,5 +19,7 @@ public:
     virtual std::shared_ptr<IIndexBuffer> createIndexBuffer(
         const uint32_t* data, uint32_t count, BufferUsage usage = BufferUsage::Static) override;
     virtual std::shared_ptr<IVertexArray> createVertexArray() override;
+    virtual std::shared_ptr<ITexture> createTexture(
+        const void* pixels, uint32_t width, uint32_t height, TextureFormat format) override;
 };
 }  // namespace DarrJorge
