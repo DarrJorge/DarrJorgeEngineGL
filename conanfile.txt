@@ -6,6 +6,7 @@ glm/1.0.1
 boost/1.91.0
 gtest/1.18.0
 stb/cci.20240531
+imgui/1.92.9b
 
 [generators]
 CMakeDeps

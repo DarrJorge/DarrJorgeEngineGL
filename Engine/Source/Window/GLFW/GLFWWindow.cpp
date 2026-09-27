@@ -33,7 +33,6 @@ GLFWWindow::GLFWWindow(WindowId id, const WindowSettings& settings) : m_id(id)
 
     glfwSetWindowPos(m_window, settings.x, settings.y);
     glfwSetWindowUserPointer(m_window, this);
-    glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     glfwSetWindowCloseCallback(m_window,
         [](GLFWwindow* window)
@@ -138,4 +137,9 @@ void GLFWWindow::swapBuffers()
 Event<const InputEvent&>& GLFWWindow::windowEvent()
 {
     return m_windowEvent;
+}
+
+void* GLFWWindow::nativeHandle() const
+{
+    return m_window;
 }

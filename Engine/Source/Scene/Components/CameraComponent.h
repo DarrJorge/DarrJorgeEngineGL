@@ -24,6 +24,8 @@ public:
     [[nodiscard]] const glm::vec3& forward() const;
     [[nodiscard]] glm::vec3 right() const;
 
+    [[nodiscard]] std::string_view typeName() const override { return "Camera"; }
+
 private:
     Camera m_camera;
 };

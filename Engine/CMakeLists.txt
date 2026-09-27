@@ -103,6 +103,23 @@ set(ENGINE_SOURCES
     Source/Resource/ShaderFactory.cpp
     Source/Resource/TextureFactory.h
     Source/Resource/TextureFactory.cpp
+        Source/Editor/IGUIPlatformBackend.h
+        Source/Editor/IGUIRendererBackend.h
+        Source/Editor/GUIPlatformBackendFactory.h
+        Source/Editor/GUIPlatformBackendFactory.cpp
+        Source/Editor/GUIRendererBackendFactory.h
+        Source/Editor/GUIRendererBackendFactory.cpp
+    Source/Editor/EditorLayer.h
+    Source/Editor/EditorLayer.cpp
+        Source/Editor/GLFW/GLFWGUIPlatformBackend.h
+        Source/Editor/GLFW/GLFWGUIPlatformBackend.cpp
+        Source/Editor/OpenGL/OpenGLGUIRendererBackend.h
+        Source/Editor/OpenGL/OpenGLGUIRendererBackend.cpp
+    ThirdParty/imgui_backends/imgui_impl_glfw.h
+    ThirdParty/imgui_backends/imgui_impl_glfw.cpp
+    ThirdParty/imgui_backends/imgui_impl_opengl3.h
+    ThirdParty/imgui_backends/imgui_impl_opengl3.cpp
+    ThirdParty/imgui_backends/imgui_impl_opengl3_loader.h
 )
 
 if (WIN32)
@@ -117,6 +134,7 @@ endif()
 
 add_library(${PROJECT_NAME}Lib ${ENGINE_SOURCES})
 target_include_directories(${PROJECT_NAME}Lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Source)
+target_include_directories(${PROJECT_NAME}Lib PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/imgui_backends)
 
 # tests
 add_executable(${PROJECT_NAME}TestRunner Tests/LogInputEvent.cpp Tests/LogEvents.cpp)
@@ -167,6 +185,9 @@ target_link_libraries(${PROJECT_NAME}Lib PRIVATE glad::glad)
 
 find_package(stb REQUIRED)
 target_link_libraries(${PROJECT_NAME}Lib PRIVATE stb::stb)
+
+find_package(imgui REQUIRED)
+target_link_libraries(${PROJECT_NAME}Lib PRIVATE imgui::imgui)
 
 find_package(glfw3 REQUIRED)
 target_link_libraries(${PROJECT_NAME}Lib PRIVATE glfw)

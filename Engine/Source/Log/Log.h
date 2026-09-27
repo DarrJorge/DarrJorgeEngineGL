@@ -7,6 +7,7 @@
 #include <concepts>
 #include <memory>
 #include <format>
+#include <deque>
 #include "Core/Utility.h"
 
 namespace DarrJorge
@@ -41,6 +42,8 @@ public:
 
     void log(const LogCategory& category, LogVerbosity verbosity, const std::string& message, bool showLocation = false,
         const std::source_location location = std::source_location::current());
+
+    [[nodiscard]] const std::deque<std::string>& history() const;
 
 private:
     Log();

@@ -11,6 +11,7 @@ namespace DarrJorge
 class WindowManager;
 class Renderer;
 class Scene;
+class EditorLayer;
 
 class Engine final : public NonCopyable
 {
@@ -29,6 +30,7 @@ private:
     const std::unique_ptr<WindowManager> m_windowManager;
     std::unique_ptr<Renderer> m_renderer;
     std::unique_ptr<Scene> m_scene;
+    std::unique_ptr<EditorLayer> m_editorLayer;
 
     bool m_initialized{false};
 };

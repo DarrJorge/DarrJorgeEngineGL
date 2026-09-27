@@ -23,6 +23,8 @@ public:
 
     Event<const InputEvent&>& windowEvent() override;
 
+    [[nodiscard]] void* nativeHandle() const override;
+
 private:
     HWND m_window{nullptr};
     Event<const InputEvent&> m_windowEvent;

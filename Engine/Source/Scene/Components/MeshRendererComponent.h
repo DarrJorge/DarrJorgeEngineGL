@@ -19,6 +19,8 @@ public:
     [[nodiscard]] const Mesh& mesh() const;
     [[nodiscard]] const Material& material() const;
 
+    [[nodiscard]] std::string_view typeName() const override { return "MeshRenderer"; }
+
 private:
     std::shared_ptr<Mesh> m_mesh;
     std::shared_ptr<Material> m_material;

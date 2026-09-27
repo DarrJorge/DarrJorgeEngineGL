@@ -12,6 +12,8 @@ public:
 
     void update(float deltaTime) override;
 
+    [[nodiscard]] std::string_view typeName() const override { return "Rotator"; }
+
 private:
     glm::vec3 m_angularVelocity;
 };

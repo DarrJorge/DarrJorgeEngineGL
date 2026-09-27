@@ -27,6 +27,8 @@ public:
 
     Event<const InputEvent&>& windowEvent() override;
 
+    [[nodiscard]] void* nativeHandle() const override;
+
 private:
     const WindowId m_id;
     GLFWwindow* m_window{nullptr};

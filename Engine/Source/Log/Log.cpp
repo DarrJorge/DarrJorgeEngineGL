@@ -22,6 +22,7 @@ const fs::path c_logDirectory = "logs";
 constexpr const char* c_logFilePrefix = "Log";
 constexpr const char* c_logFileExtension = "txt";
 constexpr const char* c_timestampFormat = "{:%Y.%d.%m-%H.%M.%S}";
+constexpr size_t c_maxHistoryEntries = 500;
 }  // namespace
 
 // pImpl
@@ -52,15 +53,24 @@ public:
             m_fileLogger->log(spdLevel, message);
         }
 
+        m_history.push_back(message);
+        if (m_history.size() > c_maxHistoryEntries)
+        {
+            m_history.pop_front();
+        }
+
         if (verbosity == LogVerbosity::Fatal)
         {
             PLATFORM_BREAK();
         }
     }
 
+    [[nodiscard]] const std::deque<std::string>& history() const { return m_history; }
+
 private:
     std::unique_ptr<spdlog::logger> m_consoleLogger;
     std::unique_ptr<spdlog::logger> m_fileLogger;
+    std::deque<std::string> m_history;
 
     fs::path makeLogFile() const
     {
@@ -98,4 +108,9 @@ void Log::log(
                                       : std::format("[{}] {}", category.name(), message);
 
     m_impl->log(verbosity, formatMsg);
+}
+
+const std::deque<std::string>& Log::history() const
+{
+    return m_impl->history();
 }

@@ -46,6 +46,11 @@ public:
     virtual bool shouldClose() const = 0;
 
     virtual Event<const InputEvent&>& windowEvent() = 0;
+
+    // Opaque escape hatch for backend-specific integrations (e.g. ImGui platform backends) that
+    // genuinely need the native handle. Callers must know which concrete IWindow they're holding
+    // before casting this back to a real type.
+    [[nodiscard]] virtual void* nativeHandle() const = 0;
 };
 }  // namespace DarrJorge
 

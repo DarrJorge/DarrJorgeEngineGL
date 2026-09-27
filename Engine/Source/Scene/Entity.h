@@ -1,7 +1,9 @@
 #pragma once
 
 #include <memory>
+#include <string>
 #include <unordered_map>
+#include <vector>
 
 #include "Components/Component.h"
 #include <Core/Utility.h>
@@ -70,7 +72,22 @@ public:
 
     void update(float deltaTime);
 
+    [[nodiscard]] std::vector<Component*> components() const
+    {
+        std::vector<Component*> result;
+        result.reserve(m_components.size());
+        for (const auto& [id, component] : m_components)
+        {
+            result.push_back(component.get());
+        }
+        return result;
+    }
+
+    void setName(std::string name) { m_name = std::move(name); }
+    [[nodiscard]] const std::string& name() const { return m_name; }
+
 private:
     std::unordered_map<ComponentTypeId, std::unique_ptr<Component>> m_components;
+    std::string m_name;
 };
 }

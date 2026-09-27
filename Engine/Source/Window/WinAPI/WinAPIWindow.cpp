@@ -64,3 +64,8 @@ Event<const InputEvent&>& WinAPIWindow::windowEvent()
 {
     return m_windowEvent;
 }
+
+void* WinAPIWindow::nativeHandle() const
+{
+    return m_window;
+}

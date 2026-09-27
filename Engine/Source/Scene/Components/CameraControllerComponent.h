@@ -20,6 +20,8 @@ public:
     void onKeyEvent(KeyCode key, KeyAction action);
     void onMouseMove(double x, double y);
 
+    [[nodiscard]] std::string_view typeName() const override { return "CameraController"; }
+
 private:
     float m_moveSpeed;
     float m_lookSensitivity;

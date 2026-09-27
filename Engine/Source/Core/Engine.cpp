@@ -3,6 +3,7 @@
 #include "Render/Renderer/Renderer.h"
 #include "Scene/Scene.h"
 #include "Scene/SceneFactory.h"
+#include "Editor/EditorLayer.h"
 #include "Log/Log.h"
 
 #include <chrono>
@@ -26,6 +27,8 @@ Engine::Engine(std::unique_ptr<WindowManager> windowManager) : m_windowManager(s
     {
         window->setTitle(std::format("{}, version: {}", ENGINE_TITLE_STRING, version()));
         window->windowEvent().add(this, &Engine::onWindowEvent);
+
+        m_editorLayer = std::make_unique<EditorLayer>(*window);
     }
 
     m_renderer = std::make_unique<Renderer>();
@@ -51,6 +54,7 @@ void Engine::run()
         m_scene->update(deltaTime);
 
         m_renderer->render(*m_scene);
+        m_editorLayer->render(*m_scene);
 
         m_windowManager->update();
     }
@@ -63,11 +67,17 @@ void Engine::onWindowEvent(const InputEvent& event)
     }
     else if (auto* data = std::get_if<MouseMoveEventData>(&event.data))
     {
-        m_scene->onMouseMove(data->x, data->y);
+        if (!m_editorLayer->wantsCaptureMouse())
+        {
+            m_scene->onMouseMove(data->x, data->y);
+        }
     }
     else if (auto* data = std::get_if<KeyEventData>(&event.data))
     {
-        m_scene->onKeyEvent(data->key, data->action);
+        if (!m_editorLayer->wantsCaptureKeyboard())
+        {
+            m_scene->onKeyEvent(data->key, data->action);
+        }
     }
     else if (auto* data = std::get_if<WindowResizeEventData>(&event.data))
     {

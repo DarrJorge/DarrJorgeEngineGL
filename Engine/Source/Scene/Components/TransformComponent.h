@@ -19,6 +19,12 @@ public:
     void rotate(const glm::vec3& deltaEulerRadians);
     void setScale(const glm::vec3& scale);
 
+    [[nodiscard]] const glm::vec3& position() const { return m_position; }
+    [[nodiscard]] const glm::vec3& rotationEuler() const { return m_rotationEuler; }
+    [[nodiscard]] const glm::vec3& scale() const { return m_scale; }
+
+    [[nodiscard]] std::string_view typeName() const override { return "Transform"; }
+
 private:
     glm::vec3 m_position{0.0f};
     glm::vec3 m_rotationEuler{0.0f};
