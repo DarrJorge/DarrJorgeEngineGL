@@ -63,3 +63,14 @@ void Scene::onMouseMove(double x, double y)
         }
     }
 }
+
+void Scene::onMouseButton(MouseButton button, KeyAction action)
+{
+    if (auto* camera = activeCamera())
+    {
+        if (auto* controller = camera->owner()->getComponent<CameraControllerComponent>())
+        {
+            controller->onMouseButton(button, action);
+        }
+    }
+}

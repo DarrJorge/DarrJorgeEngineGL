@@ -20,6 +20,17 @@ KeyCode ToKeyCode(int glfwKey)
         default: return KeyCode::Unknown;
     }
 }
+
+MouseButton ToMouseButton(int glfwButton)
+{
+    switch (glfwButton)
+    {
+        case GLFW_MOUSE_BUTTON_LEFT: return MouseButton::Left;
+        case GLFW_MOUSE_BUTTON_RIGHT: return MouseButton::Right;
+        case GLFW_MOUSE_BUTTON_MIDDLE: return MouseButton::Middle;
+        default: return MouseButton::Unknown;
+    }
+}
 }
 
 GLFWWindow::GLFWWindow(WindowId id, const WindowSettings& settings) : m_id(id)
@@ -79,9 +90,12 @@ GLFWWindow::GLFWWindow(WindowId id, const WindowSettings& settings) : m_id(id)
     glfwSetMouseButtonCallback(m_window,
         [](GLFWwindow* window, int button, int action, int mods)
         {
+            if (action != GLFW_PRESS && action != GLFW_RELEASE) return;
+
             auto* thisWindow = static_cast<GLFWWindow*>(glfwGetWindowUserPointer(window));
             InputEvent event{};
             event.type = EventType::MouseButton;
+            event.data = MouseButtonEventData{ ToMouseButton(button), action == GLFW_PRESS ? KeyAction::Pressed : KeyAction::Released };
             thisWindow->m_windowEvent.invoke(event);
         });
 
@@ -142,4 +156,10 @@ Event<const InputEvent&>& GLFWWindow::windowEvent()
 void* GLFWWindow::nativeHandle() const
 {
     return m_window;
+}
+
+void GLFWWindow::setCursorMode(CursorMode mode)
+{
+    if (!m_window) return;
+    glfwSetInputMode(m_window, GLFW_CURSOR, mode == CursorMode::Disabled ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
 }

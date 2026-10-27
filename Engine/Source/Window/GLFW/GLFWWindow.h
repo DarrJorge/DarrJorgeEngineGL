@@ -27,6 +27,8 @@ public:
 
     Event<const InputEvent&>& windowEvent() override;
 
+    void setCursorMode(CursorMode mode) override;
+
     [[nodiscard]] void* nativeHandle() const override;
 
 private:

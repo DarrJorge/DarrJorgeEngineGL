@@ -11,6 +11,8 @@ CameraControllerComponent::CameraControllerComponent(float moveSpeed, float look
 
 void CameraControllerComponent::update(float deltaTime)
 {
+    if (!m_isFlying) return;
+
     if (!m_cameraComponent)
     {
         m_cameraComponent = owner()->getComponent<CameraComponent>();
@@ -39,6 +41,8 @@ void CameraControllerComponent::onKeyEvent(KeyCode key, KeyAction action)
 
 void CameraControllerComponent::onMouseMove(double x, double y)
 {
+    if (!m_isFlying) return;
+
     if (!m_hasLastMouse)
     {
         m_lastMouseX = x;
@@ -57,4 +61,12 @@ void CameraControllerComponent::onMouseMove(double x, double y)
     {
         m_cameraComponent->rotate(deltaX * m_lookSensitivity, -deltaY * m_lookSensitivity);
     }
+}
+
+void CameraControllerComponent::onMouseButton(MouseButton button, KeyAction action)
+{
+    if (button != MouseButton::Right) return;
+
+    m_isFlying = (action == KeyAction::Pressed);
+    m_hasLastMouse = false;  // re-prime on next move so entering fly mode doesn't snap the view
 }

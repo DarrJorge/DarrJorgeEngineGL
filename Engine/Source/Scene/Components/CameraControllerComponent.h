@@ -19,6 +19,7 @@ public:
 
     void onKeyEvent(KeyCode key, KeyAction action);
     void onMouseMove(double x, double y);
+    void onMouseButton(MouseButton button, KeyAction action);
 
     [[nodiscard]] std::string_view typeName() const override { return "CameraController"; }
 
@@ -31,6 +32,8 @@ private:
     bool m_hasLastMouse = false;
     double m_lastMouseX = 0.0;
     double m_lastMouseY = 0.0;
+
+    bool m_isFlying = false;
 
     CameraComponent* m_cameraComponent{nullptr};
 };

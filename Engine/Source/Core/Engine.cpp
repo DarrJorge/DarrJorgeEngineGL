@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "Window/WindowManager.h"
+#include "Window/IWindow.h"
 #include "Render/Renderer/Renderer.h"
 #include "Scene/Scene.h"
 #include "Scene/SceneFactory.h"
@@ -29,6 +30,7 @@ Engine::Engine(std::unique_ptr<WindowManager> windowManager) : m_windowManager(s
         window->windowEvent().add(this, &Engine::onWindowEvent);
 
         m_editorLayer = std::make_unique<EditorLayer>(*window);
+        m_window = window;
     }
 
     m_renderer = std::make_unique<Renderer>();
@@ -63,7 +65,7 @@ void Engine::onWindowEvent(const InputEvent& event)
 {
     if (auto* data = std::get_if<MouseScrollEventData>(&event.data))
     {
-        LOG(LogEngine, Display, "Mouse scroll");
+        //LOG(LogEngine, Display, "Mouse scroll");
     }
     else if (auto* data = std::get_if<MouseMoveEventData>(&event.data))
     {
@@ -77,6 +79,22 @@ void Engine::onWindowEvent(const InputEvent& event)
         if (!m_editorLayer->wantsCaptureKeyboard())
         {
             m_scene->onKeyEvent(data->key, data->action);
+        }
+    }
+    else if (auto* data = std::get_if<MouseButtonEventData>(&event.data))
+    {
+        if (data->button == MouseButton::Right)
+        {
+            if (data->action == KeyAction::Released)
+            {
+                m_window->setCursorMode(CursorMode::Normal);
+                m_scene->onMouseButton(data->button, data->action);
+            }
+            else if (!m_editorLayer->wantsCaptureMouse())
+            {
+                m_window->setCursorMode(CursorMode::Disabled);
+                m_scene->onMouseButton(data->button, data->action);
+            }
         }
     }
     else if (auto* data = std::get_if<WindowResizeEventData>(&event.data))

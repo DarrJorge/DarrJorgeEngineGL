@@ -9,6 +9,7 @@
 namespace DarrJorge
 {
 class WindowManager;
+class IWindow;
 class Renderer;
 class Scene;
 class EditorLayer;
@@ -28,6 +29,7 @@ private:
 
 private:
     const std::unique_ptr<WindowManager> m_windowManager;
+    std::shared_ptr<IWindow> m_window;
     std::unique_ptr<Renderer> m_renderer;
     std::unique_ptr<Scene> m_scene;
     std::unique_ptr<EditorLayer> m_editorLayer;

@@ -33,6 +33,12 @@ struct WindowSettings
     int y{100};
 };
 
+enum class CursorMode : uint8_t
+{
+    Normal,
+    Disabled
+};
+
 class IWindow
 {
 public:
@@ -46,6 +52,8 @@ public:
     virtual bool shouldClose() const = 0;
 
     virtual Event<const InputEvent&>& windowEvent() = 0;
+
+    virtual void setCursorMode(CursorMode mode) = 0;
 
     // Opaque escape hatch for backend-specific integrations (e.g. ImGui platform backends) that
     // genuinely need the native handle. Callers must know which concrete IWindow they're holding

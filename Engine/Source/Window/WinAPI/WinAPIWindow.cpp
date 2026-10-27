@@ -69,3 +69,8 @@ void* WinAPIWindow::nativeHandle() const
 {
     return m_window;
 }
+
+void WinAPIWindow::setCursorMode(CursorMode mode)
+{
+    ShowCursor(mode == CursorMode::Normal);
+}
