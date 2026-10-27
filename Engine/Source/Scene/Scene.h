@@ -9,6 +9,7 @@ namespace DarrJorge
 {
 class Entity;
 class CameraComponent;
+class LightComponent;
 
 class Scene
 {
@@ -26,8 +27,12 @@ public:
     void onMouseMove(double x, double y);
     void onMouseButton(MouseButton button, KeyAction action);
 
+    void setActiveLight(std::shared_ptr<Entity> lightEntity);
+    [[nodiscard]] LightComponent* activeLight() const;
+
 private:
     std::vector<std::shared_ptr<Entity>> m_entities;
     std::shared_ptr<Entity> m_activeCameraEntity;
+    std::shared_ptr<Entity> m_lightEntity;
 };
 };

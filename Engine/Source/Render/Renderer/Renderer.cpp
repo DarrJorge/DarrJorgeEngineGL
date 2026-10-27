@@ -8,6 +8,7 @@
 #include "Scene/Components/CameraComponent.h"
 #include "Scene/Components/TransformComponent.h"
 #include "Scene/Components/MeshRendererComponent.h"
+#include "Scene/Components/LightComponent.h"
 #include "Resource/Material.h"
 #include "Resource/Mesh.h"
 #include "Render/RHI/IShader.h"
@@ -46,6 +47,8 @@ void Renderer::render(const Scene& scene)
         return;
     }
 
+    const LightComponent* light = scene.activeLight();
+
     for (auto& entity : scene.entities())
     {
         auto* transform = entity->getComponent<TransformComponent>();
@@ -62,6 +65,14 @@ void Renderer::render(const Scene& scene)
         shader.setMat4("model", glm::value_ptr(transform->matrix()));
         shader.setMat4("view", glm::value_ptr(camera->viewMatrix()));
         shader.setMat4("projection", glm::value_ptr(camera->projectionMatrix()));
+
+        if (light)
+        {
+            const glm::vec3 toLight = -light->direction();
+            shader.setVec3("u_lightDirection", toLight.x, toLight.y, toLight.z);
+            shader.setVec3("u_lightColor", light->color().x, light->color().y, light->color().z);
+            shader.setFloat("u_ambientStrength", light->ambientStrength());
+        }
 
         if (auto* texture = material.texture())
         {

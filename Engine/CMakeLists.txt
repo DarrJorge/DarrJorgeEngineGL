@@ -93,6 +93,8 @@ set(ENGINE_SOURCES
     Source/Scene/Components/RotatorComponent.cpp
     Source/Scene/Components/CameraControllerComponent.h
     Source/Scene/Components/CameraControllerComponent.cpp
+    Source/Scene/Components/LightComponent.h
+    Source/Scene/Components/LightComponent.cpp
     Source/Resource/Material.cpp
     Source/Resource/Material.h
     Source/Resource/MaterialFactory.h
@@ -103,18 +105,18 @@ set(ENGINE_SOURCES
     Source/Resource/ShaderFactory.cpp
     Source/Resource/TextureFactory.h
     Source/Resource/TextureFactory.cpp
-        Source/Editor/IGUIPlatformBackend.h
-        Source/Editor/IGUIRendererBackend.h
-        Source/Editor/GUIPlatformBackendFactory.h
-        Source/Editor/GUIPlatformBackendFactory.cpp
-        Source/Editor/GUIRendererBackendFactory.h
-        Source/Editor/GUIRendererBackendFactory.cpp
+    Source/Editor/IGUIPlatformBackend.h
+    Source/Editor/IGUIRendererBackend.h
+    Source/Editor/GUIPlatformBackendFactory.h
+    Source/Editor/GUIPlatformBackendFactory.cpp
+    Source/Editor/GUIRendererBackendFactory.h
+    Source/Editor/GUIRendererBackendFactory.cpp
     Source/Editor/EditorLayer.h
     Source/Editor/EditorLayer.cpp
-        Source/Editor/GLFW/GLFWGUIPlatformBackend.h
-        Source/Editor/GLFW/GLFWGUIPlatformBackend.cpp
-        Source/Editor/OpenGL/OpenGLGUIRendererBackend.h
-        Source/Editor/OpenGL/OpenGLGUIRendererBackend.cpp
+    Source/Editor/GLFW/GLFWGUIPlatformBackend.h
+    Source/Editor/GLFW/GLFWGUIPlatformBackend.cpp
+    Source/Editor/OpenGL/OpenGLGUIRendererBackend.h
+    Source/Editor/OpenGL/OpenGLGUIRendererBackend.cpp
     ThirdParty/imgui_backends/imgui_impl_glfw.h
     ThirdParty/imgui_backends/imgui_impl_glfw.cpp
     ThirdParty/imgui_backends/imgui_impl_opengl3.h

@@ -6,6 +6,7 @@
 #include "Components/MeshRendererComponent.h"
 #include "Components/RotatorComponent.h"
 #include "Components/CameraControllerComponent.h"
+#include "Components/LightComponent.h"
 #include "Resource/MeshFactory.h"
 #include "Resource/MaterialFactory.h"
 
@@ -57,6 +58,12 @@ std::unique_ptr<Scene> SceneFactory::createDemoScene()
     cameraEntity->addComponent<CameraControllerComponent>();
     scene->addObject(cameraEntity);
     scene->setActiveCamera(cameraEntity);
+
+    std::shared_ptr<Entity> lightEntity = std::make_shared<Entity>();
+    lightEntity->setName("Light");
+    lightEntity->addComponent<LightComponent>();
+    scene->addObject(lightEntity);
+    scene->setActiveLight(lightEntity);
     // end
 
     return scene;

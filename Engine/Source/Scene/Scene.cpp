@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "Components/CameraComponent.h"
 #include "Components/CameraControllerComponent.h"
+#include "Components/LightComponent.h"
 
 using namespace DarrJorge;
 
@@ -73,4 +74,14 @@ void Scene::onMouseButton(MouseButton button, KeyAction action)
             controller->onMouseButton(button, action);
         }
     }
+}
+
+void Scene::setActiveLight(std::shared_ptr<Entity> lightEntity)
+{
+    m_lightEntity = std::move(lightEntity);
+}
+
+LightComponent* Scene::activeLight() const
+{
+    return m_lightEntity ? m_lightEntity->getComponent<LightComponent>() : nullptr;
 }
