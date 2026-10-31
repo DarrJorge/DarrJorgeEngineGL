@@ -122,6 +122,8 @@ set(ENGINE_SOURCES
     ThirdParty/imgui_backends/imgui_impl_opengl3.h
     ThirdParty/imgui_backends/imgui_impl_opengl3.cpp
     ThirdParty/imgui_backends/imgui_impl_opengl3_loader.h
+    ThirdParty/imguizmo/ImGuizmo.h
+    ThirdParty/imguizmo/ImGuizmo.cpp
 )
 
 if (WIN32)
@@ -137,6 +139,7 @@ endif()
 add_library(${PROJECT_NAME}Lib ${ENGINE_SOURCES})
 target_include_directories(${PROJECT_NAME}Lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Source)
 target_include_directories(${PROJECT_NAME}Lib PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/imgui_backends)
+target_include_directories(${PROJECT_NAME}Lib PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/imguizmo)
 
 # tests
 add_executable(${PROJECT_NAME}TestRunner Tests/LogInputEvent.cpp Tests/LogEvents.cpp)

@@ -25,7 +25,7 @@ void createCube(Scene& scene, const std::shared_ptr<Mesh>& mesh, const std::shar
     transform.setPosition(position);
 
     cube->addComponent<MeshRendererComponent>(mesh, material);
-    cube->addComponent<RotatorComponent>(glm::vec3{glm::radians(20.0f), glm::radians(45.0f), 0.0f});
+    //cube->addComponent<RotatorComponent>(glm::vec3{glm::radians(20.0f), glm::radians(45.0f), 0.0f});
 
     scene.addObject(cube);
 }

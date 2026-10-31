@@ -11,6 +11,13 @@ class Entity;
 class IGUIPlatformBackend;
 class IGUIRendererBackend;
 
+enum class GizmoOperation
+{
+    Translate,
+    Rotate,
+    Scale
+};
+
 class EditorLayer final : public NonCopyable
 {
 public:
@@ -27,5 +34,7 @@ private:
     std::unique_ptr<IGUIRendererBackend> m_rendererBackend;
 
     Entity* m_selectedEntity{nullptr};
+
+    GizmoOperation m_gizmoOperation{GizmoOperation::Translate};
 };
 }  // namespace DarrJorge

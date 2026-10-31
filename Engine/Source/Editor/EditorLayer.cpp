@@ -7,13 +7,30 @@
 #include "Scene/Entity.h"
 #include "Scene/Components/Component.h"
 #include "Scene/Components/TransformComponent.h"
+#include "Scene/Components/CameraComponent.h"
 #include "Log/Log.h"
 
 #include <imgui.h>
+#include <ImGuizmo.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <cstdlib>
 
 using namespace DarrJorge;
+
+namespace
+{
+ImGuizmo::OPERATION ToImGuizmoOperation(GizmoOperation operation)
+{
+    switch (operation)
+    {
+        case GizmoOperation::Translate: return ImGuizmo::TRANSLATE;
+        case GizmoOperation::Rotate: return ImGuizmo::ROTATE;
+        case GizmoOperation::Scale: return ImGuizmo::SCALE;
+    }
+    return ImGuizmo::TRANSLATE;
+}
+}
 
 EditorLayer::EditorLayer(IWindow& window)
 {
@@ -37,6 +54,7 @@ void EditorLayer::render(const Scene& scene)
     m_rendererBackend->newFrame();
     m_platformBackend->newFrame();
     ImGui::NewFrame();
+    ImGuizmo::BeginFrame();
 
     if (ImGui::BeginMainMenuBar())
     {
@@ -69,6 +87,22 @@ void EditorLayer::render(const Scene& scene)
         if (m_selectedEntity)
         {
             ImGui::Text("Name: %s", m_selectedEntity->name().c_str());
+            ImGui::Separator();
+
+            if (ImGui::RadioButton("Translate", m_gizmoOperation == GizmoOperation::Translate))
+            {
+                m_gizmoOperation = GizmoOperation::Translate;
+            }
+            ImGui::SameLine();
+            if (ImGui::RadioButton("Rotate", m_gizmoOperation == GizmoOperation::Rotate))
+            {
+                m_gizmoOperation = GizmoOperation::Rotate;
+            }
+            ImGui::SameLine();
+            if (ImGui::RadioButton("Scale", m_gizmoOperation == GizmoOperation::Scale))
+            {
+                m_gizmoOperation = GizmoOperation::Scale;
+            }
             ImGui::Separator();
 
             for (auto* component : m_selectedEntity->components())
@@ -121,6 +155,43 @@ void EditorLayer::render(const Scene& scene)
         }
     }
     ImGui::End();
+
+    if (m_selectedEntity)
+    {
+        if (auto* transform = m_selectedEntity->getComponent<TransformComponent>())
+        {
+            if (const CameraComponent* camera = scene.activeCamera())
+            {
+                const ImGuiIO& io = ImGui::GetIO();
+                ImGuizmo::SetOrthographic(false);
+                ImGuizmo::SetDrawlist(ImGui::GetBackgroundDrawList());
+                ImGuizmo::SetRect(0.0f, 0.0f, io.DisplaySize.x, io.DisplaySize.y);
+
+                glm::mat4 matrix = transform->matrix();
+                if (ImGuizmo::Manipulate(glm::value_ptr(camera->viewMatrix()), glm::value_ptr(camera->projectionMatrix()),
+                        ToImGuizmoOperation(m_gizmoOperation), ImGuizmo::LOCAL, glm::value_ptr(matrix)))
+                {
+                    float translation[3];
+                    float rotationDegrees[3];
+                    float scale[3];
+                    ImGuizmo::DecomposeMatrixToComponents(glm::value_ptr(matrix), translation, rotationDegrees, scale);
+
+                    switch (m_gizmoOperation)
+                    {
+                        case GizmoOperation::Translate:
+                            transform->setPosition({translation[0], translation[1], translation[2]});
+                            break;
+                        case GizmoOperation::Rotate:
+                            transform->setRotationEuler(glm::radians(glm::vec3{rotationDegrees[0], rotationDegrees[1], rotationDegrees[2]}));
+                            break;
+                        case GizmoOperation::Scale:
+                            transform->setScale({scale[0], scale[1], scale[2]});
+                            break;
+                    }
+                }
+            }
+        }
+    }
 
     ImGui::Render();
     m_rendererBackend->renderDrawData();
