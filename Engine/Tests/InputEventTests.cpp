@@ -1,5 +1,7 @@
 #include "Event/InputEvent.h"
+#include "Event/InputEventFormat.h"
 #include <gtest/gtest.h>
+#include <format>
 
 using namespace DarrJorge;
 
@@ -27,3 +29,22 @@ TEST(InputEventTest, ShouldReturnNullWhenAccessingWrong)
     EXPECT_EQ(std::get_if<MouseMoveEventData>(&data), nullptr);
 }
 
+TEST(InputEventTest, DefaultConstructedEventShouldBeInherit)
+{
+    EXPECT_EQ(InputEvent{}.type(), EventType::None);
+    EXPECT_EQ(KeyEventData{}.key, Key::None);
+    EXPECT_EQ(KeyEventData{}.action, KeyAction::None);
+    EXPECT_EQ(MouseButtonEventData{}.button, MouseButton::None);
+    EXPECT_EQ(MouseButtonEventData{}.action, KeyAction::None);
+}
+
+TEST(InputEventTest, ShouldConvertEnumsToStringCorrectly)
+{
+    EXPECT_EQ(toString(Key::None), "None");
+}
+
+TEST(InputEventTest, ShouldFormatEnumsWithStdFormat)
+{
+    // TODO not compile with apple clang 16.0.0
+    //EXPECT_EQ(std::format("{}", Key::KeyA), "KeyA");
+}

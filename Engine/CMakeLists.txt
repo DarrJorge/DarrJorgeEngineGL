@@ -75,6 +75,7 @@ set(ENGINE_SOURCES
     Source/Render/OpenGL/GLTexture.cpp
     Source/Event/Event.h
     Source/Event/InputEvent.h
+    Source/Event/InputEventFormat.h
     Source/Resource/Mesh.h
     Source/Resource/Mesh.cpp
     Source/Resource/MeshFactory.h
@@ -146,7 +147,7 @@ target_include_directories(${PROJECT_NAME}Lib PRIVATE ${CMAKE_CURRENT_SOURCE_DIR
 target_include_directories(${PROJECT_NAME}Lib PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/imguizmo)
 
 # tests
-add_executable(${PROJECT_NAME}TestRunner Tests/LogInputEvent.cpp Tests/LogEvents.cpp)
+add_executable(${PROJECT_NAME}TestRunner Tests/InputEventTests.cpp Tests/EventsTests.cpp Tests/GLFWKeyMapperTests.cpp)
 target_link_libraries(${PROJECT_NAME}TestRunner PRIVATE ${PROJECT_NAME}Lib)
 
 # ###
@@ -200,6 +201,7 @@ target_link_libraries(${PROJECT_NAME}Lib PRIVATE imgui::imgui)
 
 find_package(glfw3 REQUIRED)
 target_link_libraries(${PROJECT_NAME}Lib PRIVATE glfw)
+target_link_libraries(${PROJECT_NAME}TestRunner PRIVATE glfw)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME}Lib PUBLIC glm::glm)

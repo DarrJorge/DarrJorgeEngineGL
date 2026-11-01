@@ -152,7 +152,7 @@ MouseButton toMouseButton(int glfwButton) noexcept
         case GLFW_MOUSE_BUTTON_6: return MouseButton::Button6;
         case GLFW_MOUSE_BUTTON_7: return MouseButton::Button7;
         case GLFW_MOUSE_BUTTON_8: return MouseButton::Button8;
-        default: return MouseButton::Unknown;
+        default: return MouseButton::None;
     }
 }
 
@@ -163,7 +163,7 @@ KeyAction toAction(int glfwAction) noexcept
         case GLFW_PRESS: return KeyAction::Pressed;
         case GLFW_RELEASE: return KeyAction::Released;
         case GLFW_REPEAT: return KeyAction::Repeat;
-        default: return KeyAction::Unknown;
+        default: return KeyAction::None;
     }
 }
 }
