@@ -21,10 +21,10 @@ void CameraControllerComponent::update(float deltaTime)
 
     glm::vec3 move{0.0f};
 
-    if (m_keyDown[static_cast<size_t>(KeyCode::W)]) move += m_cameraComponent->forward();
-    if (m_keyDown[static_cast<size_t>(KeyCode::S)]) move -= m_cameraComponent->forward();
-    if (m_keyDown[static_cast<size_t>(KeyCode::D)]) move += m_cameraComponent->right();
-    if (m_keyDown[static_cast<size_t>(KeyCode::A)]) move -= m_cameraComponent->right();
+    if (m_keyDown[static_cast<size_t>(Key::KeyW)]) move += m_cameraComponent->forward();
+    if (m_keyDown[static_cast<size_t>(Key::KeyS)]) move -= m_cameraComponent->forward();
+    if (m_keyDown[static_cast<size_t>(Key::KeyD)]) move += m_cameraComponent->right();
+    if (m_keyDown[static_cast<size_t>(Key::KeyA)]) move -= m_cameraComponent->right();
 
     if (glm::length(move) > 0.0f)
     {
@@ -32,9 +32,9 @@ void CameraControllerComponent::update(float deltaTime)
     }
 }
 
-void CameraControllerComponent::onKeyEvent(KeyCode key, KeyAction action)
+void CameraControllerComponent::onKeyEvent(Key key, KeyAction action)
 {
-    if (key == KeyCode::Unknown || key == KeyCode::Count) return;
+    if (key == Key::Unknown || key == Key::Count) return;
 
     m_keyDown[static_cast<size_t>(key)] = (action == KeyAction::Pressed);
 }

@@ -102,8 +102,8 @@ void Engine::onWindowEvent(const InputEvent& event)
         m_renderer->onResize(data->width, data->height);
         m_scene->onResize(data->width, data->height);
     }
-    else if (auto* data = std::get_if<WindowCloseEventData>(&event.data))
+    else if (std::get_if<WindowCloseEventData>(&event.data))
     {
-        LOG(LogEngine, Display, "Window close");
+        LOG(LogEngine, Display, "Window with id={} closed!", event.windowId.value);
     }
 }

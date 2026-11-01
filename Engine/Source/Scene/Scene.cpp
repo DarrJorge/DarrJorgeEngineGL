@@ -43,7 +43,7 @@ void Scene::onResize(int width, int height)
     }
 }
 
-void Scene::onKeyEvent(KeyCode key, KeyAction action)
+void Scene::onKeyEvent(Key key, KeyAction action)
 {
     if (auto* camera = activeCamera())
     {

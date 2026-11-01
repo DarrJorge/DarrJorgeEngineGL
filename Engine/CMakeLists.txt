@@ -30,10 +30,12 @@ set(ENGINE_SOURCES
     Source/Core/FileUtils.h
     Source/Core/FileUtils.cpp
     Source/Core/MathTypes.h
-    Source/Core/MathTypes.cpp      
+    Source/Core/MathTypes.cpp     
+    Source/Core/Types.h 
     Source/Log/Log.h
     Source/Log/Log.cpp    
     Source/Window/IWindow.h
+    Source/Window/WindowId.h
     Source/Window/WindowManager.h
     Source/Window/WindowManager.cpp
     Source/Window/WindowManagerFactory.h
@@ -42,6 +44,8 @@ set(ENGINE_SOURCES
     Source/Window/GLFW/GLFWWindow.cpp
     Source/Window/GLFW/GLFWWindowManager.h
     Source/Window/GLFW/GLFWWindowManager.cpp 
+    Source/Window/GLFW/GLFWKeyMapper.h
+    Source/Window/GLFW/GLFWKeyMapper.cpp 
     Source/Render/Renderer/Renderer.h
     Source/Render/Renderer/Renderer.cpp 
     Source/Render/Renderer/RendererAPI.h

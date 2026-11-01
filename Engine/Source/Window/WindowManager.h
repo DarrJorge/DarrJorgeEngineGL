@@ -1,13 +1,14 @@
 #pragma once
 
 #include <memory>
-#include <cstdint>
 #include <expected>
 #include "Window/IWindow.h"
+#include "Window/WindowId.h"
+#include "Core/Types.h"
 
 namespace DarrJorge
 {
-enum class WindowCreationError : uint8_t
+enum class WindowCreationError : uint8
 {
     ManagerIsNotInitialized,
     CreationFailed

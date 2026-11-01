@@ -6,24 +6,10 @@
 
 #include "Event/Event.h"
 #include "Event/InputEvent.h"
+#include "Core/Types.h"
 
 namespace DarrJorge
 {
-struct WindowId
-{
-    uint32_t value{0};
-    constexpr explicit WindowId(uint32_t id) : value(id) {}
-
-    constexpr WindowId operator++(int)
-    {
-        WindowId temp = *this;
-        ++value;
-        return temp;
-    }
-
-    constexpr auto operator<=>(const WindowId&) const = default;
-};
-
 struct WindowSettings
 {
     std::string title{};
@@ -61,12 +47,3 @@ public:
     [[nodiscard]] virtual void* nativeHandle() const = 0;
 };
 }  // namespace DarrJorge
-
-namespace std
-{
-template <>
-struct hash<DarrJorge::WindowId>
-{
-    size_t operator()(const DarrJorge::WindowId& id) const noexcept { return std::hash<uint32_t>{}(id.value); }
-};
-}  // namespace std

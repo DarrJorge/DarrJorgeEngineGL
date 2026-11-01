@@ -17,7 +17,7 @@ public:
 
     void update(float deltaTime) override;
 
-    void onKeyEvent(KeyCode key, KeyAction action);
+    void onKeyEvent(Key key, KeyAction action);
     void onMouseMove(double x, double y);
     void onMouseButton(MouseButton button, KeyAction action);
 
@@ -27,7 +27,7 @@ private:
     float m_moveSpeed;
     float m_lookSensitivity;
 
-    std::array<bool, static_cast<size_t>(KeyCode::Count)> m_keyDown{};
+    std::array<bool, static_cast<size_t>(Key::Count)> m_keyDown{};
 
     bool m_hasLastMouse = false;
     double m_lastMouseX = 0.0;

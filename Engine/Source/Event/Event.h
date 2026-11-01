@@ -3,16 +3,16 @@
 #include <string>
 #include <functional>
 #include <unordered_map>
-#include <cstdint>
 
 #include "InputEvent.h"
+#include "Core/Types.h"
 
 namespace DarrJorge
 {
 struct EventHandle
 {
-    uint64_t value{};
-    constexpr explicit EventHandle(uint64_t id = 0) : value(id) {}
+    uint64 value{};
+    constexpr explicit EventHandle(uint64 id = 0) : value(id) {}
     constexpr auto operator<=>(const EventHandle&) const = default;
 };
 
@@ -60,6 +60,6 @@ namespace std
 template <>
 struct hash<DarrJorge::EventHandle>
 {
-    size_t operator()(const DarrJorge::EventHandle& id) const noexcept { return std::hash<uint64_t>{}(id.value); }
+    size_t operator()(const DarrJorge::EventHandle& id) const noexcept { return std::hash<DarrJorge::uint64>{}(id.value); }
 };
 }  // namespace std

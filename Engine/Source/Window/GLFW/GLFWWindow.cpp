@@ -1,4 +1,5 @@
 #include "GLFWWindow.h"
+#include "GLFWKeyMapper.h"
 #include <GLFW/glfw3.h>
 
 #include "Log/Log.h"
@@ -6,32 +7,6 @@
 using namespace DarrJorge;
 
 DEFINE_LOG_CATEGORY_STATIC(LogGLFWWindow);
-
-namespace
-{
-KeyCode ToKeyCode(int glfwKey)
-{
-    switch (glfwKey)
-    {
-        case GLFW_KEY_W: return KeyCode::W;
-        case GLFW_KEY_A: return KeyCode::A;
-        case GLFW_KEY_S: return KeyCode::S;
-        case GLFW_KEY_D: return KeyCode::D;
-        default: return KeyCode::Unknown;
-    }
-}
-
-MouseButton ToMouseButton(int glfwButton)
-{
-    switch (glfwButton)
-    {
-        case GLFW_MOUSE_BUTTON_LEFT: return MouseButton::Left;
-        case GLFW_MOUSE_BUTTON_RIGHT: return MouseButton::Right;
-        case GLFW_MOUSE_BUTTON_MIDDLE: return MouseButton::Middle;
-        default: return MouseButton::Unknown;
-    }
-}
-}
 
 GLFWWindow::GLFWWindow(WindowId id, const WindowSettings& settings) : m_id(id)
 {
@@ -49,9 +24,11 @@ GLFWWindow::GLFWWindow(WindowId id, const WindowSettings& settings) : m_id(id)
         [](GLFWwindow* window)
         {
             auto* thisWindow = static_cast<GLFWWindow*>(glfwGetWindowUserPointer(window));
+            if (!thisWindow) return;
+
             InputEvent event{};
-            event.type = EventType::WindowClose;
-            event.data = WindowCloseEventData{thisWindow->m_id.value};
+            event.windowId = thisWindow->m_id;
+            event.data = WindowCloseEventData{};
             thisWindow->m_windowEvent.invoke(event);
         });
 
@@ -59,8 +36,10 @@ GLFWWindow::GLFWWindow(WindowId id, const WindowSettings& settings) : m_id(id)
         [](GLFWwindow* window, int width, int height)
         {
             auto* thisWindow = static_cast<GLFWWindow*>(glfwGetWindowUserPointer(window));
+            if (!thisWindow) return;
+
             InputEvent event{};
-            event.type = EventType::WindowResize;
+            event.windowId = thisWindow->m_id;
             event.data = WindowResizeEventData{width, height};
             thisWindow->m_windowEvent.invoke(event);
         });
@@ -71,19 +50,26 @@ GLFWWindow::GLFWWindow(WindowId id, const WindowSettings& settings) : m_id(id)
             if (action != GLFW_PRESS && action != GLFW_RELEASE) return;
 
             auto* thisWindow = static_cast<GLFWWindow*>(glfwGetWindowUserPointer(window));
+            if (!thisWindow) return;
+
             InputEvent event{};
-            event.type = EventType::KeyPress;
-            event.data = KeyEventData{ ToKeyCode(key), action == GLFW_PRESS ? KeyAction::Pressed : KeyAction::Released };
+            event.windowId = thisWindow->m_id;
+            event.data = KeyEventData{
+                .key = KeyMapper::toKey(key),
+                .action = KeyMapper::toAction(action),
+                .scanCode = scancode};
             thisWindow->m_windowEvent.invoke(event);
         });
 
     glfwSetCursorPosCallback(m_window,
-        [](GLFWwindow* window, double xpos, double ypos)
+        [](GLFWwindow* window, double xPos, double yPos)
         {
             auto* thisWindow = static_cast<GLFWWindow*>(glfwGetWindowUserPointer(window));
+            if (!thisWindow) return;
+
             InputEvent event{};
-            event.type = EventType::MouseMove;
-            event.data = MouseMoveEventData{xpos, ypos};
+            event.windowId = thisWindow->m_id;
+            event.data = MouseMoveEventData{xPos, yPos};
             thisWindow->m_windowEvent.invoke(event);
         });
 
@@ -93,9 +79,13 @@ GLFWWindow::GLFWWindow(WindowId id, const WindowSettings& settings) : m_id(id)
             if (action != GLFW_PRESS && action != GLFW_RELEASE) return;
 
             auto* thisWindow = static_cast<GLFWWindow*>(glfwGetWindowUserPointer(window));
+            if (!thisWindow) return;
+
             InputEvent event{};
-            event.type = EventType::MouseButton;
-            event.data = MouseButtonEventData{ ToMouseButton(button), action == GLFW_PRESS ? KeyAction::Pressed : KeyAction::Released };
+            event.windowId = thisWindow->m_id;
+            event.data = MouseButtonEventData{
+                .button = KeyMapper::toMouseButton(button),
+                .action = KeyMapper::toAction(action)};
             thisWindow->m_windowEvent.invoke(event);
         });
 
@@ -103,8 +93,10 @@ GLFWWindow::GLFWWindow(WindowId id, const WindowSettings& settings) : m_id(id)
         [](GLFWwindow* window, double xOffset, double yOffset)
         {
             auto* thisWindow = static_cast<GLFWWindow*>(glfwGetWindowUserPointer(window));
+            if (!thisWindow) return;
+
             InputEvent event{};
-            event.type = EventType::MouseScroll;
+            event.windowId = thisWindow->m_id;
             event.data = MouseScrollEventData{xOffset, yOffset};
             thisWindow->m_windowEvent.invoke(event);
         });
@@ -114,6 +106,7 @@ GLFWWindow::~GLFWWindow()
 {
     if (m_window)
     {
+        glfwSetWindowUserPointer(m_window, nullptr);
         glfwDestroyWindow(m_window);
         m_window = nullptr;
     }

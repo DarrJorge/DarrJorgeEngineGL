@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstdint>
 #include <string>
 #include <string_view>
 #include <source_location>
@@ -9,10 +8,11 @@
 #include <format>
 #include <deque>
 #include "Core/Utility.h"
+#include "Core/Types.h"
 
 namespace DarrJorge
 {
-enum class LogVerbosity : uint8_t
+enum class LogVerbosity : uint8
 {
     NoLogging = 0,
     Display,
