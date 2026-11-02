@@ -7,7 +7,8 @@
 template<>
 struct std::formatter<DarrJorge::Key> : std::formatter<std::string_view>
 {
-    auto format(DarrJorge::Key key, std::format_context& ctx) const
+    template <class FormatContext>
+    auto format(DarrJorge::Key key, FormatContext& ctx) const
     {
         return std::formatter<std::string_view>::format(DarrJorge::toString(key), ctx);
     }
@@ -16,7 +17,8 @@ struct std::formatter<DarrJorge::Key> : std::formatter<std::string_view>
 template<>
 struct std::formatter<DarrJorge::KeyAction> : std::formatter<std::string_view>
 {
-    auto format(DarrJorge::KeyAction action, std::format_context& ctx) const
+    template <class FormatContext>
+    auto format(DarrJorge::KeyAction action, FormatContext& ctx) const
     {
         return std::formatter<std::string_view>::format(DarrJorge::toString(action), ctx);
     }
@@ -25,7 +27,8 @@ struct std::formatter<DarrJorge::KeyAction> : std::formatter<std::string_view>
 template<>
 struct std::formatter<DarrJorge::MouseButton> : std::formatter<std::string_view>
 {
-    auto format(DarrJorge::MouseButton button, std::format_context& ctx) const
+    template <class FormatContext>
+    auto format(DarrJorge::MouseButton button, FormatContext& ctx) const
     {
         return std::formatter<std::string_view>::format(DarrJorge::toString(button), ctx);
     }
@@ -34,7 +37,8 @@ struct std::formatter<DarrJorge::MouseButton> : std::formatter<std::string_view>
 template<>
 struct std::formatter<DarrJorge::EventType> : std::formatter<std::string_view>
 {
-    auto format(DarrJorge::EventType eventType, std::format_context& ctx) const
+    template <class FormatContext>
+    auto format(DarrJorge::EventType eventType, FormatContext& ctx) const
     {
         return std::formatter<std::string_view>::format(DarrJorge::toString(eventType), ctx);
     }

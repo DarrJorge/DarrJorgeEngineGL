@@ -45,6 +45,5 @@ TEST(InputEventTest, ShouldConvertEnumsToStringCorrectly)
 
 TEST(InputEventTest, ShouldFormatEnumsWithStdFormat)
 {
-    // TODO not compile with apple clang 16.0.0
-    //EXPECT_EQ(std::format("{}", Key::KeyA), "KeyA");
+    EXPECT_EQ(std::format("{}", Key::KeyA), "KeyA");
 }
