@@ -205,8 +205,13 @@ struct MouseButtonEventData
     KeyAction action{KeyAction::None};
 };
 
-using EventData = std::variant<std::monostate, MouseMoveEventData, MouseScrollEventData, WindowResizeEventData, WindowCloseEventData, KeyEventData,
-    MouseButtonEventData>;
+using EventData = std::variant<std::monostate,  //
+    WindowCloseEventData,                       //
+    WindowResizeEventData,                      //
+    MouseMoveEventData,                         //
+    MouseButtonEventData,                       //
+    MouseScrollEventData,                       //
+    KeyEventData>;
 
 struct InputEvent
 {

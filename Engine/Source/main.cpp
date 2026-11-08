@@ -1,5 +1,4 @@
 #include "Core/Engine.h"
-#include <memory>
 #include "Window/WindowManagerFactory.h"
 #include "Window/WindowManager.h"
 

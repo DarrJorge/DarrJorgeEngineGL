@@ -32,6 +32,7 @@ set(ENGINE_SOURCES
     Source/Core/MathTypes.h
     Source/Core/MathTypes.cpp     
     Source/Core/Types.h 
+    Source/Core/LRUCache.h
     Source/Log/Log.h
     Source/Log/Log.cpp    
     Source/Window/IWindow.h
