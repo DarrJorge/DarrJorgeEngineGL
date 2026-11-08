@@ -2,6 +2,10 @@
 
 #include <list>
 #include <unordered_map>
+#include <optional>
+#include <functional>
+#include <stdexcept>
+#include <utility>
 
 namespace DarrJorge
 {
@@ -22,7 +26,7 @@ public:
 
     std::optional<std::reference_wrapper<const Value>> get(const Key& key)
     {
-        auto it = std::find(key);
+        auto it = m_idx.find(key);
         if (it == m_idx.end()) return std::nullopt;
 
         m_entries.splice(m_entries.begin(), m_entries, it->second);
@@ -41,8 +45,8 @@ public:
 
         if (m_entries.size() == m_capacity)
         {
-            const Key& k_evict = m_entries.back().first;
-            m_idx.erase(k_evict);
+            const Key& evictKey = m_entries.back().first;
+            m_idx.erase(evictKey);
             m_entries.pop_back();
         }
 
@@ -56,13 +60,6 @@ public:
         {
             m_entries.pop_front();
             throw;
-        }
-
-        if (m_entries.size() >= m_capacity)
-        {
-            const auto& oldKey = m_entries.back().first;
-            m_idx.erase(oldKey);
-            m_entries.pop_back();
         }
     }
 

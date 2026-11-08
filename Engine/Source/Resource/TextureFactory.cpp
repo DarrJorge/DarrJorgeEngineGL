@@ -2,6 +2,7 @@
 #include "Render/RHI/ITexture.h"
 #include "Render/RHI/RenderDevice.h"
 #include "Render/RHI/RenderDeviceFactory.h"
+#include "Core/LRUCache.h"
 #include "Log/Log.h"
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -11,8 +12,20 @@ using namespace DarrJorge;
 
 DEFINE_LOG_CATEGORY_STATIC(LogTextureFactory);
 
+namespace
+{
+constexpr size_t c_maxCachedTextures = 64;
+}
+
 std::shared_ptr<ITexture> TextureFactory::createFromFile(const std::string& path)
 {
+    static LRUCache<std::string, std::shared_ptr<ITexture>> s_cache(c_maxCachedTextures);
+
+    if (auto cached = s_cache.get(path))
+    {
+        return cached->get();
+    }
+
     int width = 0;
     int height = 0;
     int sourceChannels = 0;
@@ -30,6 +43,8 @@ std::shared_ptr<ITexture> TextureFactory::createFromFile(const std::string& path
     auto texture = renderDevice->createTexture(pixels, static_cast<uint32_t>(width), static_cast<uint32_t>(height), TextureFormat::RGBA8);
 
     stbi_image_free(pixels);
+
+    s_cache.put(path, texture);
 
     return texture;
 }
